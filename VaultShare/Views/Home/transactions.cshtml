@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultShare - Recent Transactions</title>
+    <style>
+        body { background-color: #F8C471; }
+        .transactions-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            width: 80%;
+            position: relative;
+            left: 325px;
+        }
+        .transaction-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .transaction-row:last-child { border-bottom: none; }
+        .transaction-details {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; 
+            margin-left: 10px;
+        }
+        .description {
+            flex-grow: 1; 
+            position: relative;
+            left: 400px;
+        }
+        .amount {
+            width: 100px; 
+            text-align: right; 
+        }
+        .amount-positive { color: #27AE60; }
+        .amount-negative { color: #E74C3C; }
+        .transaction-avatar {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .approve-deny-buttons {
+            display: flex;
+            gap: 5px;
+            position: relative;
+            left: 50px;
+        }
+        .btn-approve {
+            background-color: #27AE60;
+            color: white;
+            border: none;
+        }
+        .btn-deny {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
+        }
+        .transactions-container img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        h2 {
+            text-align: center;
+            position: relative;
+            left: 325px;
+        }
+    </style>
+</head>
+<body>
+
+    <br><br>
+    <h2>Recent Transactions</h2>
+    <br>
+    <div class="transactions-container">
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 1</span>
+                 <div class="approve-deny-buttons">
+                    <button class="btn btn-approve btn-sm">Approve</button>
+                    <button class="btn btn-deny btn-sm">Deny</button>
+                </div>
+                <span class="amount amount-negative">-$100</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 2</span>
+            </div>
+            <div class="approve-deny-buttons">
+                <button class="btn btn-approve btn-sm">Approve</button>
+                <button class="btn btn-deny btn-sm">Deny</button>
+            </div>
+            <span class="amount amount-negative">-$30</span>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 3</span>
+                <span class="amount amount-positive">$40</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 4</span>
+                <span class="amount amount-positive">$60</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 5</span>
+                <span class="amount amount-negative">-$75</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 6</span>
+                <span class="amount amount-negative">-$90</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 7</span>
+                <span class="amount amount-positive">$300</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 8</span>
+                <span class="amount amount-positive">$70</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 9</span>
+                <span class="amount amount-positive">$50</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 10</span>
+                <span class="amount amount-negative">-$15</span>
+            </div>
+        </div>
+        <div class="transaction-row">
+            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
+            <div class="transaction-details">
+                <span class="description">Description 11</span>
+                <span class="amount amount-positive">$230</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
