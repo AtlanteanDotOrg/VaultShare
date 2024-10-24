@@ -18,8 +18,8 @@ builder.Services.AddAuthentication(options =>
 .AddCookie()
 .AddGoogle(options =>
 {
-    options.ClientId = "211102231626-nimn1hsavm542tejgf4q1t37b1ocvnc9.apps.googleusercontent.com";
-    options.ClientSecret = "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";
+    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? throw new Exception("GOOGLE_CLIENT_ID not set");
+    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? throw new Exception("GOOGLE_CLIENT_SECRET not set");
     options.CallbackPath = "/signin-google";
     options.SaveTokens = true;
     options.Events.OnCreatingTicket = async context =>
