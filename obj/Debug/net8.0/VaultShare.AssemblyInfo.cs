@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VaultShare")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f173824ac82cc376265b9f7de71cc78c96d36647")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7de4835195c796eee408dd996e1606d1fc9f5c17")]
 [assembly: System.Reflection.AssemblyProductAttribute("VaultShare")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VaultShare")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

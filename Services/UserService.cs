@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using VaultShare.Models;
+using System.Threading.Tasks;
 
 public class UserService
 {

@@ -7,11 +7,17 @@ C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\VaultShare.runtime
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\VaultShare.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\VaultShare.pdb
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\DnsClient.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\DotNetEnv.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\MongoDB.Bson.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\SharpCompress.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\Snappier.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\Sprache.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\Stripe.net.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\bin\Debug\net8.0\ZstdSharp.dll
 C:\Users\cfreeman\Desktop\Project\VaultShare\obj\Debug\net8.0\VaultShare.csproj.AssemblyReference.cache
 C:\Users\cfreeman\Desktop\Project\VaultShare\obj\Debug\net8.0\VaultShare.GeneratedMSBuildEditorConfig.editorconfig
