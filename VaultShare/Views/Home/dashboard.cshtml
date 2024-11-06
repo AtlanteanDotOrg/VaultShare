@@ -1,8 +1,11 @@
+@model VaultShare.Models.DashboardViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>VaultShare - Dashboard</title>
 
     <style>
@@ -117,9 +120,7 @@
 </head>
 <body>
     <div class="container-boxes">
-        <br>
-        <h1>Welcome, user!</h1>
-        <br><br>
+        <h1>Welcome, @Model.User.Name!</h1>
         <div class="row text-center mt-4">
             <div class="col-md-4">
                 <div class="dashboard-card">
@@ -138,66 +139,51 @@
             <div class="col-md-4">
                 <div class="dashboard-card">
                     <h5 class="card-title">Balance</h5>
-                    <h1>$100</h1>
+                    <h1>$@Model.Balance</h1>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="dashboard-card">
                     <h5 class="card-title">Vault Members</h5>
                     <ul class="friend-list">
-                <!-- COLUMN 1 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
+                        @if (Model.FriendsInVaults != null && Model.FriendsInVaults.Any())
+                        {
+                            foreach (var friend in Model.FriendsInVaults)
+                            {
+                                <li class="friend-item d-flex align-items-center">
+                                    <div class="profile-pic2 ml-2">
+                                        <img src="@friend.Photo" alt="Profile Picture" class="rounded-circle" height="30">
+                                    </div>
+                                    @friend.Name
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>No friends in your vaults.</p>
+                        }
+                    </ul>
 
-                <!-- COLUMN 2 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-            </ul>
-
-            <button class="btn btn-primary view-more-btn2">View More</button>
+                    <button class="btn btn-primary view-more-btn2">View More</button>
                 </div>
             </div>
         </div>
 
         <div class="notifications mt-4">
             <h5 class="card-title">Notifications</h5>
-            <p><span class="notification-badge badge-error">Error</span> Group Wallet Roomates payment #5476282 requires 2 approvals</p>
-            <p><span class="notification-badge badge-group">Group Wallet</span> Group Wallet Roomates has requested a transaction approval</p>
-            <p><span class="notification-badge badge-feature">New feature</span> Sasha has requested to be your friend</p>
-            <p><span class="notification-badge badge-success">Success</span> Payment #12u2892 was successful</p>
+            @if (Model.Notifications != null && Model.Notifications.Any())
+            {
+                foreach (var notification in Model.Notifications)
+                {
+                    <p><span class="notification-badge badge-success">Success</span> @notification</p>
+                }
+            }
+            else
+            {
+                <p>No current notifications.</p>
+            }
         </div>
     </div>
+
 </body>
 </html>

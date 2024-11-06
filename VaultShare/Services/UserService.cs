@@ -37,6 +37,27 @@ public class UserService
         return await _users.Find(user => user.Email == email).FirstOrDefaultAsync();
     }
 
+    // New method added to retrieve user by username
+    public async Task<User?> GetUserByUsernameAsync(string username)
+    {
+        _logger.LogInformation("Attempting to retrieve user by Username: {Username}", username);
+        var user = await _users.Find(u => u.Username == username).FirstOrDefaultAsync();
+        if (user == null)
+        {
+            _logger.LogWarning("No user found with Username: {Username}", username);
+        }
+        else
+        {
+            _logger.LogInformation("User found with Username: {Username}", username);
+        }
+        return user;
+    }
+
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        return await _users.Find(Builders<User>.Filter.Empty).ToListAsync();
+    }
+
     public async Task CreateUserAsync(User newUser)
     {
         _logger.LogInformation("Creating new user with GoogleId: {GoogleId} and Email: {Email}", newUser.GoogleId, newUser.Email);
@@ -138,5 +159,19 @@ public async Task UpdatePaymentMethodAsync(string userId, PaymentMethodRequest p
         var update = Builders<User>.Update.Set(u => u.Password, newPassword); // Make sure to hash the password in a real application
         await _users.UpdateOneAsync(filter, update);
     }
+
+    public async Task<List<User>> SearchUsersByUsernameAsync(string username)
+    {
+        var filter = Builders<User>.Filter.Regex(u => u.Username, new MongoDB.Bson.BsonRegularExpression(username, "i"));
+        return await _users.Find(filter).ToListAsync();
+    }
+
+    public async Task DeleteUserAsync(string userId)
+    {
+        var filter = Builders<User>.Filter.Eq(u => u.Id, userId);
+        await _users.DeleteOneAsync(filter);
+    }
+
+
 
 }
