@@ -1,0 +1,107 @@
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #F8C471; /* Use the yellow-orange background color */
+  }
+
+
+.header {
+  display: flex;
+  justify-content: space-between; /* Space out items evenly */
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px; /* Add padding to the header */
+  position: relative;
+  top: 0;
+  width: 100%;
+  background-color: white;
+}
+
+.header a {
+  margin-left: 20px;
+  color: #343a40;
+  text-decoration: none;
+}
+.header a:hover {
+  text-decoration: underline;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+.friends-box1 {
+    flex: 1;
+    background-color: gray; /* Background color for Box 1 */
+}
+
+.friends-box2 {
+    flex: 1;
+    background-color: white; /* Background color for Box 2 */
+}
+
+.avatar-photo-nav {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  gap: 30px;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  right: 35px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: absolute; /* Keep the footer absolute */
+  bottom: 0;
+  width: 100%; /* Full width */
+  white-space: nowrap;
+  line-height: 60px;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  background-color: white;
+}

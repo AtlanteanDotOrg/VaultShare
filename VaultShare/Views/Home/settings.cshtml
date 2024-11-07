@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>VaultShare - Settings</title>
+    <style>
+        body { background-color: #F8C471; }
+        .container-settings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .settings-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .btn-purple {
+            background-color: #6C3483;
+            color: white;
+        }
+        .btn-purple:hover { background-color: #5B2C6F; }
+        .profile-card {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .profile-img-placeholder img{
+            background-color: #E0E0E0;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+        }
+        .input-field {
+            background-color: #EFEFEF;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .update-payment-method .form-control {
+            margin-bottom: 10px;
+        }
+        .btn-outline {
+            border: 1px solid #6C3483;
+            color: #6C3483;
+        }
+        .btn-outline:hover {
+            background-color: #6C3483;
+            color: white;
+        }
+        .toggle-password {
+            cursor: pointer;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; 
+        }
+        .custom-input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%; 
+            flex: 1; 
+            margin-right: 5px;
+        }
+
+        .custom-btn {
+            background-color: #6C3483; 
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            margin-right: 5px;
+            width: auto;
+        }
+
+        .custom-btn:hover {
+            background-color: #5A2D71;
+        }
+        .button-group {
+            display: flex;
+        }
+
+        .form-control-change1 {
+            width: 150px;
+            display: block; 
+            padding: 0.375rem 0.75rem; 
+            font-size: 1rem; 
+            line-height: 1.5; 
+            color: #495057; 
+            background-color: #fff; 
+            background-clip: padding-box; 
+            border: 1px solid #ced4da; 
+            border-radius: 0.25rem; 
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
+        }
+        .form-control-change2{
+            width: 150px;
+            position: relative;
+            left: 10px;
+            display: block; 
+            padding: 0.375rem 0.75rem; 
+            font-size: 1rem;
+            line-height: 1.5; 
+            color: #495057; 
+            background-color: #fff;
+            background-clip: padding-box; 
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem; 
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out; 
+        }
+    </style>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const input = toggle.previousElementSibling;
+                input.type = input.type === 'password' ? 'text' : 'password';
+                toggle.textContent = input.type === 'password' ? '👁️' : '🙈';
+            });
+        });
+
+        // Enable/Disable Push Notifications
+        document.querySelector('.custom-btn:first-child').addEventListener('click', () => updatePushNotifications(true));
+        document.querySelector('.custom-btn:nth-child(2)').addEventListener('click', () => updatePushNotifications(false));
+
+        async function updatePushNotifications(enable) {
+            try {
+                const response = await fetch(`/api/profile/push-notifications`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enable })
+                });
+                if (response.ok) {
+                    alert(`Push notifications ${enable ? 'enabled' : 'disabled'}`);
+                } else {
+                    alert("Failed to update push notifications");
+                }
+            } catch (error) {
+                console.error("Error updating notifications:", error);
+            }
+        }
+
+        // Change Username and Bio
+        document.querySelectorAll('.input-field .btn-outline').forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const input = document.querySelectorAll('.input-field input')[index];
+                updateProfileField(index === 0 ? 'username' : 'bio', input.value);
+            });
+        });
+
+        async function updateProfileField(field, value) {
+            try {
+                const response = await fetch(`/api/profile/${field}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ value })
+                });
+                if (response.ok) {
+                    alert(`${field} updated successfully`);
+                } else {
+                    alert(`Failed to update ${field}`);
+                }
+            } catch (error) {
+                console.error(`Error updating ${field}:`, error);
+            }
+        }
+
+        // Update Payment Method
+        document.querySelector('.update-payment-method .custom-btn:last-child').addEventListener('click', async () => {
+            const name = document.querySelector('.update-payment-method input[placeholder="Name on card"]').value;
+            const expiry = document.querySelector('.update-payment-method input[placeholder="Expiry"]').value;
+            const cvv = document.querySelector('.update-payment-method input[placeholder="CVV"]').value;
+            const cardNumber = document.querySelector('.update-payment-method input[placeholder="Card number"]').value;
+
+            try {
+                const response = await fetch(`/api/profile/payment-method`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, expiry, cvv, cardNumber })
+                });
+                if (response.ok) {
+                    alert("Payment method updated successfully");
+                } else {
+                    alert("Failed to update payment method");
+                }
+            } catch (error) {
+                console.error("Error updating payment method:", error);
+            }
+        });
+
+        // Reset Password
+        document.querySelector('.button-group .custom-btn:first-child').addEventListener('click', async () => {
+            const newPassword = document.querySelectorAll('.custom-input')[0].value;
+            const confirmPassword = document.querySelectorAll('.custom-input')[1].value;
+
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/profile/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ newPassword })
+                });
+                if (response.ok) {
+                    alert("Password reset successfully");
+                } else {
+                    alert("Failed to reset password");
+                }
+            } catch (error) {
+                console.error("Error resetting password:", error);
+            }
+        });
+
+        // Sign Out
+        document.querySelector('.button-group .custom-btn:nth-child(2)').addEventListener('click', () => {
+            window.location.href = '/Home/Logout';
+        });
+    });
+</script>
+
+</head>
+<body>
+    <div class="container-settings">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-card">
+                    <div class="profile-img-placeholder">
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" alt="User Avatar">
+                    </div>
+                    <h5>#@ViewData["Username"]</h5>
+                    <p>$1500</p>
+                    <p>@ViewData["Bio"]</p>
+                </div>
+                <div class="input-field">
+                    <span>Change Username</span>
+                    <input type="text" class="form-control-change1" value="@ViewData["Username"]" placeholder="Input">
+                    <button class="btn btn-sm btn-outline">&times;</button>
+                </div>
+                <div class="input-field">
+                    <span>Change Bio</span>
+                    <input type="text" class="form-control-change2" value="@ViewData["Bio"]" placeholder="Input">
+                    <button class="btn btn-sm btn-outline">&times;</button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="settings-section update-payment-method">
+                    <h5>Update Payment Method</h5>
+                    <p>Update your card details.</p>
+                    <input type="text" class="form-control" placeholder="Name on card" value="@ViewData["CardNickname"]">
+                    <div class="d-flex">
+                        <input type="text" class="form-control mr-2" placeholder="Expiry" value="@ViewData["CardExpiry"]">
+                        <input type="text" class="form-control" placeholder="CVV" value="@ViewData["CardCvc"]">
+                    </div>
+                    <input type="text" class="form-control" placeholder="Card number" value="@ViewData["CardNumber"]">
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="custom-btn">Cancel</button>
+                        <button class="custom-btn">Update</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="settings-section">
+                    <h5>Reset Password</h5>
+                    <p>Choose a new password for your account</p>
+                    <div class="input-group">
+                        <input type="password" class="custom-input" placeholder="Your new password">
+                        <span class="toggle-password">&#128065;</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" class="custom-input" placeholder="Confirm your new password">
+                        <span class="toggle-password">&#128065;</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="custom-btn">Reset Password</button>
+                        <button class="custom-btn custom-btn-outline">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
