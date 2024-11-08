@@ -17,6 +17,17 @@ public class HomeController : Controller
     {
         return View("login"); // Corresponds to login.cshtml
     }
+    // Register
+    public IActionResult Register()
+    {
+        return View();
+    }
+    public IActionResult ForgotPassword() {
+        return View();
+    }
+    public IActionResult PasswordReset() {
+        return View();
+    }
 
     public IActionResult Dashboard()
     {
