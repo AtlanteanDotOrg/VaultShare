@@ -22,7 +22,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            width: 500px;
+            width: 400px;
             text-align: center;
         }
         .login-container h1 {
@@ -51,7 +51,6 @@
         .forgot-password {
             text-align: right;
             font-size: 0.9rem;
-            
             margin-bottom: 20px;
         }
         .gsi-material-button {
@@ -90,11 +89,10 @@
         .gsi-material-button-contents {
             font-weight: 500;
         }   
-
         .register-button-container {
             margin-top: -10px;
         }
-        .register-button-container .btn{
+        .register-button-container .btn {
             width: 100%;
         }
     </style>
@@ -103,22 +101,21 @@
     <div class="login-container">
         <h1>VaultShare</h1>
         <p>A Group Wallet Solution</p>
-            <form asp-controller="Home" asp-action="Dashboard" method="post">
-                <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email" required>
+        <form asp-controller="Home" asp-action="Dashboard" method="post">
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" required>
+                <div class="forgot-password">
+                    <a href="@Url.Action("ForgotPassword", "Home")" class="custom-link">Forgot password?</a>
                 </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required>
-                    <div class="forgot-password">
-                        <a href="@Url.Action("ForgotPassword", "Home")" class="custom-link">Forgot password?</a>
-                    </div>
-                </div>
-    
-                <button type="submit" class="btn btn-purple btn-block">Sign In</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-purple btn-block">Sign In</button>
+        </form>
 
-
-        <button class="gsi-material-button">
+        <!-- Google Sign-In Button -->
+        <button class="gsi-material-button" onclick="location.href='/Home/GoogleLogin'">
             <div class="gsi-material-button-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
@@ -132,10 +129,9 @@
         </button>
 
         <hr>
-        <div class= "register-button-container">
+        <div class="register-button-container">
             <a href="@Url.Action("Register", "Home")" class="btn btn-purple mt-3">Register</a>
         </div>
-        
     </div>
 </body>
 </html>
