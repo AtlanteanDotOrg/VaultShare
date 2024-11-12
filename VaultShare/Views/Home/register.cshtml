@@ -1,0 +1,82 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultShare - Register</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #F8C471; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .btn-purple {
+            background-color: #6C3483;
+            color: white;
+            width: 100%;
+        }
+        .btn-purple:hover {
+            background-color: #5B2C6F;
+            color: white;
+        }
+        .register-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 600px;
+        }
+        .register-container h1 {
+            font-weight: bold;
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+
+<div class = "register-container">
+    <h1>Register</h1>
+    <form asp-action="Signup" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" class="form-control" id="Name" name="Name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Username">Username</label>
+            <input type="text" class="form-control" id="Username" name="Username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" id="Password" name="Password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Bio">Bio</label>
+            <textarea class="form-control" id="Bio" name="Bio" rows="3"></textarea>
+        </div>
+
+        <br>
+        <div class="form-group">
+            <label for="ProfilePic">Profile Picture</label>
+            <br>
+            <input type="file" class="form-control-file" id="ProfilePic" name="ProfilePic" accept="image/*">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-purple btn-block">Register</button>
+    </form>
+</div>
+</body>
+</html>
