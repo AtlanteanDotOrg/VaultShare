@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VaultShare</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/VaultShare.styles.css" asp-append-version="true" />
+    <style>
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-toggle {
+            cursor: pointer;
+            padding: 8px 12px;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .custom-dropdown.show .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="@Url.Action("Dashboard", "Home")">
+            <img src="https://png.pngtree.com/element_our/sm/20180515/sm_5afafeb131875.jpg" alt="VaultShare Logo" height="40" class="logo">
+        </a>
+        <div>
+            <a href="@Url.Action("Dashboard", "Home")">Dashboard</a>
+            <a href="@Url.Action("transactions", "Home")">Transaction</a>
+            <a href="@Url.Action("Friends", "Home")">Friends</a>
+
+            <!-- Vaults Dropdown -->
+            <div class="custom-dropdown">
+                <a class="dropdown-toggle" onclick="toggleDropdown()">Vaults</a>
+                <div class="dropdown-content" id="vaultsDropdown">
+                    <!-- Vaults will be populated here -->
+                </div>
+            </div>
+
+            <a href="@Url.Action("vaultSend", "Home")">Pay</a>
+            <a href="@Url.Action("settings", "Home")">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" height="40" class="avatar-photo-nav">
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody() 
+        </main>
+    </div>
+
+    <!-- Modal for Creating a New Vault -->
+    <div class="modal" id="createVaultModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Create New Group</h5>
+                    <span onclick="closeCreateVaultModal()" class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="createVaultForm">
+                        <label for="vaultName">Vault Name</label>
+                        <input type="text" id="vaultName" class="form-control" required>
+                        <label for="friendsList" class="mt-3">Add Friends</label>
+                        <div id="friendsList"></div>
+                        <button type="button" class="btn btn-primary mt-3" onclick="createVault()">Create</button>
+                        <button type="button" class="btn btn-secondary mt-3" onclick="closeCreateVaultModal()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle dropdown display
+        function toggleDropdown() {
+            document.querySelector('.custom-dropdown').classList.toggle('show');
+        }
+
+        // Open and close modal functions for creating a vault
+        function openCreateVaultModal() {
+            document.getElementById("createVaultModal").style.display = "block";
+            loadFriends();
+        }
+
+        function closeCreateVaultModal() {
+            document.getElementById("createVaultModal").style.display = "none";
+        }
+
+        // Load friends for adding to the new vault
+        async function loadFriends() {
+            const googleId = "@ViewData["GoogleId"]";
+            console.log("Loading friends for GoogleId:", googleId);
+            const response = await fetch(`/api/payment/friends/${googleId}`);
+            if (response.ok) {
+                const friends = await response.json();
+                const friendsListDiv = document.getElementById("friendsList");
+                friendsListDiv.innerHTML = "";
+                friends.forEach(friend => {
+                    const friendDiv = document.createElement("div");
+                    friendDiv.className = "friend-item";
+                    friendDiv.innerHTML = `
+                        <label>
+                            <input type="checkbox" name="friend" value="${friend.id}">
+                            ${friend.name}
+                        </label>
+                        <select name="role_${friend.id}">
+                            <option value="admin">Admin</option>
+                            <option value="contributor">Contributor</option>
+                        </select>
+                    `;
+                    friendsListDiv.appendChild(friendDiv);
+                });
+            } else {
+                console.error("Failed to load friends");
+                alert("Failed to load friends");
+            }
+        }
+
+        // Create a vault with selected friends
+        async function createVault() {
+            const vaultName = document.getElementById("vaultName").value;
+            const selectedFriends = Array.from(document.querySelectorAll('input[name="friend"]:checked'))
+                .map(friendCheckbox => {
+                    const friendId = friendCheckbox.value;
+                    const role = document.querySelector(`select[name="role_${friendId}"]`).value;
+                    return { friendId, role };
+                });
+
+            console.log("Creating vault with name:", vaultName);
+            console.log("Selected friends:", selectedFriends);
+
+            const response = await fetch('/api/vault/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ VaultName: vaultName, Members: selectedFriends })
+            });
+
+            if (response.ok) {
+                alert("Group created successfully!");
+                closeCreateVaultModal();
+            } else {
+                console.error("Failed to create group");
+                alert("Failed to create group.");
+            }
+        }
+
+        // Populate vaults in dropdown and add "Add Group" link
+        document.addEventListener("DOMContentLoaded", () => {
+            const vaults = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Vaults"])) || [];
+            const vaultsDropdown = document.getElementById("vaultsDropdown");
+
+            if (Array.isArray(vaults)) {
+                vaults.forEach(vault => {
+                    const vaultLink = document.createElement("a");
+                    vaultLink.textContent = vault.Name || "Unnamed Vault";
+                    vaultLink.href = `/Home/Vault?vaultId=${vault.VaultId}`;
+                    console.log("Generated vault link:", vaultLink.href); // Debugging link generation
+                    vaultsDropdown.appendChild(vaultLink);
+                });
+            } else {
+                console.warn("No vaults found in ViewData");
+            }
+
+            // Add the "Add Group" option at the end of the dropdown
+            const addGroupLink = document.createElement("a");
+            addGroupLink.textContent = "Add Group";
+            addGroupLink.href = "#";
+            addGroupLink.onclick = openCreateVaultModal;
+            vaultsDropdown.appendChild(addGroupLink);
+        });
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-toggle')) {
+                document.querySelector('.custom-dropdown').classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>

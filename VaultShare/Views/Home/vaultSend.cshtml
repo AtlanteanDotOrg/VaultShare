@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultShare - Sending Money</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #F8C471; }
+        .payment-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .btn-purple { background-color: #6C3483; color: white; }
+        .btn-purple:hover { background-color: #5B2C6F; }
+        .amount-buttons .btn {
+            margin: 5px;
+            width: 125px;
+            border-radius: 12px;
+            background-color: #EFEFEF;
+            border: 1px solid #ccc; 
+            padding: 10px;
+            cursor: pointer;
+        }
+        .amount-buttons .btn.active { background-color: #6C3483; color: white; }
+        .submit-button-money {
+            background-color: #6C3483; 
+            color: white;
+            width: 100%; 
+            padding: 12px 20px; 
+            border: none;
+            border-radius: 10px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin-top: 20px; 
+        }
+        .submit-button-money:hover { background-color: #5A2D71; }
+        .to-section {
+            background-color: #F2F3F4;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("[DOMContentLoaded] Event triggered.");
+const googleId = "@ViewData["GoogleId"]";
+        console.log("GoogleId obtained:", googleId);
+
+        fetchFriends(googleId);
+        fetchVaults(googleId);
+        console.log("Initiated fetching friends and vaults for GoogleId:", googleId);
+
+        document.querySelector(".submit-button-money").addEventListener("click", sendPayment);
+        console.log("Added click event listener for send payment button.");
+
+        // Event listeners to handle exclusive selection of vault or friend
+        document.querySelector("#vault-select").addEventListener("change", function() {
+            if (this.value) {
+                document.querySelector("#recipient-select").disabled = true;
+                console.log("Vault selected, disabling recipient select.");
+            } else {
+                document.querySelector("#recipient-select").disabled = false;
+                console.log("Vault deselected, enabling recipient select.");
+            }
+        });
+        
+        document.querySelector("#recipient-select").addEventListener("change", function() {
+            if (this.value) {
+                document.querySelector("#vault-select").disabled = true;
+                console.log("Recipient selected, disabling vault select.");
+            } else {
+                document.querySelector("#vault-select").disabled = false;
+                console.log("Recipient deselected, enabling vault select.");
+            }
+        });
+
+        // Handle custom amount input
+        document.querySelector("#custom-amount").addEventListener("input", function() {
+            document.querySelectorAll(".amount-buttons .btn").forEach(btn => btn.classList.remove("active"));
+            console.log("Custom amount entered:", this.value);
+        });
+        
+        // Preset amount buttons logic
+        document.querySelectorAll(".amount-buttons .btn").forEach(button => {
+            button.addEventListener("click", function() {
+                document.querySelectorAll(".amount-buttons .btn").forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+                document.querySelector("#custom-amount").value = ""; // Clear custom amount field
+                console.log("Preset amount selected:", this.innerText);
+            });
+        });
+    });
+
+    async function fetchFriends(googleId) {
+        console.log("Fetching friends for GoogleId:", googleId);
+        const response = await fetch(`/api/payment/friends/${googleId}`);
+        const friends = await response.json();
+        console.log("Friends fetched:", friends);
+
+        const recipientSelect = document.querySelector("#recipient-select");
+        friends.forEach(friend => {
+            const option = document.createElement("option");
+            option.value = friend.id;
+            option.textContent = `${friend.name} (#${friend.email})`;
+            recipientSelect.appendChild(option);
+        });
+        console.log("Friends added to recipient select dropdown.");
+    }
+
+    async function fetchVaults(googleId) {
+        console.log("Fetching vaults for GoogleId:", googleId);
+        const response = await fetch(`/api/payment/vaults/${googleId}`);
+        const vaults = await response.json();
+        console.log("Vaults fetched:", vaults);
+
+        const vaultSelect = document.querySelector("#vault-select");
+        vaults.forEach(vault => {
+            const option = document.createElement("option");
+            option.value = vault.vaultId;
+            option.textContent = vault.name;
+            vaultSelect.appendChild(option);
+        });
+        console.log("Vaults added to vault select dropdown.");
+    }
+
+    async function sendPayment() {
+        console.log("Initiating payment...");
+
+        // Determine the amount: either a preset or custom value
+        let amount = parseFloat(document.querySelector("#custom-amount").value);
+        if (!amount) {
+            const activeButton = document.querySelector(".amount-buttons .btn.active");
+            amount = activeButton ? parseFloat(activeButton.innerText.replace("$", "")) : 0;
+            console.log("Amount selected from preset:", amount);
+        } else {
+            console.log("Custom amount entered:", amount);
+        }
+
+        const selectedVault = document.querySelector("#vault-select").value;
+        const selectedRecipient = document.querySelector("#recipient-select").value;
+
+        if (selectedVault && selectedRecipient) {
+            console.warn("Both vault and friend selected, aborting payment.");
+            alert("Please select either a vault or a friend, not both.");
+            return;
+        }
+        if (!selectedVault && !selectedRecipient) {
+            console.warn("Neither vault nor friend selected, aborting payment.");
+            alert("Please select a vault or a friend to send money.");
+            return;
+        }
+
+        const recipientId = selectedVault || selectedRecipient;
+        console.log("Recipient ID:", recipientId);
+        console.log("Amount to be sent:", amount);
+
+        const response = await fetch(`/api/payment/send`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                googleId: "@ViewData["GoogleId"]",
+                recipientId: recipientId,
+                amount: amount
+            })
+        });
+        console.log("Payment request sent, awaiting response...");
+
+        if (response.ok) {
+            console.log("Payment sent successfully.");
+            alert("Payment sent successfully!");
+        } else {
+            const error = await response.json();
+            console.error("Payment failed:", error);
+            alert("Failed to send payment: " + error.message);
+        }
+    }
+</script>
+
+</head>
+<body>
+    <div class="payment-container">
+        <h5>Sending Money</h5>
+        <p>How much would you like to send?</p>
+        
+        <!-- Custom amount input field -->
+        <input type="number" id="custom-amount" class="form-control mb-3" placeholder="Enter custom amount" step="0.01">
+
+        <!-- Preset amount buttons -->
+        <div class="amount-buttons" role="group">
+            <button type="button" class="btn">$10.00</button>
+            <button type="button" class="btn">$50.00</button>
+            <button type="button" class="btn active">$100.00</button>
+            <button type="button" class="btn">$200.00</button>
+        </div>
+
+        <div class="to-section">
+            <p>To</p>
+            <select class="form-control mb-3" id="vault-select">
+                <option value="">-- Select Vault --</option>
+            </select>
+
+            <p class="mt-3">Or</p>
+
+            <select class="form-control" id="recipient-select">
+                <option value="">-- Select Friend --</option>
+            </select>
+        </div>
+
+        <button class="submit-button-money">Send Money</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultShare - Contributions & Transactions</title>
+    <style>
+        body {
+            background-color: #F8C471; 
+        }
+        .dashboard-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 300px;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .btn-purple {
+            background-color: #6C3483;
+            color: white;
+        }
+        .btn-purple:hover {
+            background-color: #5A2D71;
+        }
+        .transactions-section, .contributions-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .transaction-row, .contribution-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            padding: 10px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .transaction-row:last-child, .contribution-row:last-child {
+            border-bottom: none;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px; 
+            object-fit: cover;
+        }
+
+
+        .approve-deny-buttons {
+            display: flex;
+            gap: 5px;
+            position: relative;
+        }
+
+        .amount-positive {
+            color: #27AE60; 
+        }
+        .amount-negative {
+            color: #E74C3C; 
+        }
+
+        .vault-members img {
+            margin: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+                .friend-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            list-style-type: none;
+            gap: 5px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic {
+            margin-right: 10px; 
+        }
+
+        .profile-pic img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-pic2 {
+            margin-right: 10px;
+        }
+
+        .profile-pic2 img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+
+
+        .container {
+            position: relative;
+        }
+
+        .container-boxes {
+            position: relative;
+            left: 315px;
+        }
+        
+        .view-more-btn1 {
+            width: 100%; 
+            padding: 10px; 
+            font-size: 12px; 
+            border-radius: 15px;
+            background-color: #5B2C6F;
+            position: relative;
+            color: white;
+            top: 20px;
+            border-color: #5B2C6F;
+        }
+        .view-more-btn1:hover, .view-more-btn2:hover {
+            background-color: #452c63;
+            border-color: #452c63;
+        }
+        .view-more-btn2 {
+            width: 100%; 
+            padding: 10px; 
+            font-size: 12px; 
+            border-radius: 15px; 
+            background-color: #5B2C6F;
+            position: relative;
+            color: white;
+            bottom: 15px;
+            border-color: #5B2C6F;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-boxes">
+        <div class="row text-center">
+            <!-- Contributions Section -->
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Contributions</h5>
+                    <div id="contributions">
+                        @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
+                        {
+                            <div class="contribution-row">
+                                <img src="path/to/profile/image" alt="Profile Picture" class="avatar">
+                                <span>@member.Role</span>
+                                <span class="amount-positive">$@member.UserId</span> <!-- Replace with actual contribution amount if available -->
+                            </div>
+                        }
+                    </div>
+                    <button class="btn btn-primary view-more-btn1">View More</button>
+                </div>
+            </div>
+
+            <!-- Vault Balance Section -->
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Vault Balance</h5>
+                    <h1 id="vault-balance">$@((Vault)ViewData["SelectedVault"]).CardNumber</h1> <!-- Display actual balance if available -->
+                </div>
+            </div>
+
+            <!-- Vault Members Section -->
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Vault Members</h5>
+                    <ul id="vault-members" class="friend-list">
+                        @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
+                        {
+                            <li class="friend-item d-flex align-items-center">
+                                <img src="path/to/member/image" alt="Profile Picture" class="avatar">
+                                <span>@member.UserId</span> <!-- Replace UserId with the actual name if available -->
+                            </li>
+                        }
+                    </ul>
+                    <button class="btn btn-primary view-more-btn2">View More</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div class="transactions-section mt-4">
+            <h5 class="card-title">Recent Transactions</h5>
+            <div id="transactions">
+                <!-- Add transactions here if available in the Vault model -->
+                <!-- For example:
+                @* @foreach (var transaction in ((Vault)ViewData["SelectedVault"]).Transactions)
+                {
+                    <div class="transaction-row">
+                        <img src="path/to/transaction/image" alt="User" class="avatar">
+                        <span>@transaction.Description</span>
+                        <span class="amount-negative">-$@transaction.Amount</span>
+                    </div>
+                } *@
+                -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
