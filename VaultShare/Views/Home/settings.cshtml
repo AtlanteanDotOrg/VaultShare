@@ -191,30 +191,30 @@
         }
 
         // Update Payment Method
-document.querySelector('.update-payment-method .custom-btn:last-child').addEventListener('click', async () => {
-    const name = document.querySelector('.update-payment-method input[placeholder="Name on card"]').value;
-    const expiry = document.querySelector('.update-payment-method input[placeholder="Expiry"]').value;
-    const cvv = document.querySelector('.update-payment-method input[placeholder="CVV"]').value;
-    const cardNumber = document.querySelector('.update-payment-method input[placeholder="Card number"]').value;
-    const accountNumber = document.querySelector('.update-payment-method input[placeholder="Account Number"]').value;
-    const routingNumber = document.querySelector('.update-payment-method input[placeholder="Routing Number"]').value;
-    const merchantID = document.querySelector('.update-payment-method input[placeholder="Merchant ID"]').value;
+        document.querySelector('.update-payment-method .custom-btn:last-child').addEventListener('click', async () => {
+            const name = document.querySelector('.update-payment-method input[placeholder="Name on card"]').value;
+            const expiry = document.querySelector('.update-payment-method input[placeholder="Expiry"]').value;
+            const cvv = document.querySelector('.update-payment-method input[placeholder="CVV"]').value;
+            const cardNumber = document.querySelector('.update-payment-method input[placeholder="Card number"]').value;
+            const accountNumber = document.querySelector('.update-payment-method input[placeholder="Account Number"]').value;
+            const routingNumber = document.querySelector('.update-payment-method input[placeholder="Routing Number"]').value;
+            const merchantID = document.querySelector('.update-payment-method input[placeholder="Merchant ID"]').value;
 
-    try {
-        const response = await fetch(`/api/profile/payment-method`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, expiry, cvv, cardNumber, accountNumber, routingNumber, merchantID })
+            try {
+                const response = await fetch(`/api/profile/payment-method`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, expiry, cvv, cardNumber, accountNumber, routingNumber, merchantID })
+                });
+                if (response.ok) {
+                    alert("Payment method updated successfully");
+                } else {
+                    alert("Failed to update payment method");
+                }
+            } catch (error) {
+                console.error("Error updating payment method:", error);
+            }
         });
-        if (response.ok) {
-            alert("Payment method updated successfully");
-        } else {
-            alert("Failed to update payment method");
-        }
-    } catch (error) {
-        console.error("Error updating payment method:", error);
-    }
-});
 
 
         // Reset Password
@@ -247,6 +247,7 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
         document.querySelector('.button-group .custom-btn:nth-child(2)').addEventListener('click', () => {
             window.location.href = '/Home/Logout';
         });
+
     });
 </script>
 
