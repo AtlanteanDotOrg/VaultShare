@@ -102,3 +102,4 @@ public class MemberRequest
     public string FriendId { get; set; }
     public string Role { get; set; }
 }
+

@@ -131,3 +131,4 @@ public class PaymentUser
     public string CardCvc { get; set; }
     public string GoogleId { get; internal set; }
 }
+

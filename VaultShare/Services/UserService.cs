@@ -1,3 +1,4 @@
+
 using MongoDB.Driver;
 using VaultShare.Models;
 using System.Collections.Generic;
@@ -43,6 +44,22 @@ public class UserService
         _logger.LogInformation("Creating new user with GoogleId: {GoogleId} and Email: {Email}", newUser.GoogleId, newUser.Email);
         await _users.InsertOneAsync(newUser);
         _logger.LogInformation("User created successfully.");
+    }
+
+    public async Task<bool> RegisterUserAsync(User newUser)
+    {
+        // Check if a user with the same Email or Id already exists
+        var existingUser = await _users.Find(u => u.Email == newUser.Email || u.Id == newUser.Id).FirstOrDefaultAsync();
+        if (existingUser != null)
+        {
+            _logger.LogWarning("User with Email: {Email} or Id: {Id} already exists.", newUser.Email, newUser.Id);
+            return false; // User already exists
+        }
+
+        // Insert the new user into the Users collection
+        await _users.InsertOneAsync(newUser);
+        _logger.LogInformation("New user registered with Email: {Email} and Id: {Id}", newUser.Email, newUser.Id);
+        return true;
     }
 
     public async Task<User?> GetUserByIdAsync(string userId)

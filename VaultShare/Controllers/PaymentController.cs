@@ -184,3 +184,4 @@ public class FriendRequest
 {
     public string FriendId { get; set; }
 }
+

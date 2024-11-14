@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using VaultShare.Models;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using VaultShare.Models;
@@ -15,6 +12,38 @@ public class ProfileController : ControllerBase
     public ProfileController(UserService userService)
     {
         _userService = userService;
+    }
+
+    // Register a new user without Google
+    [HttpPost("createaccount")]
+    public async Task<ActionResult> CreateAccount([FromForm] User user)
+    {
+        if (user == null || string.IsNullOrEmpty(user.Email) ||
+            string.IsNullOrEmpty(user.Password) ||
+            string.IsNullOrEmpty(user.Username)) // Check for Username here
+        {
+            return BadRequest("Invalid user data.");
+        }
+
+        // Hash the password before storing
+        user.Password = HashPassword(user.Password);
+
+        var existingUser = await _userService.GetUserByEmailAsync(user.Email);
+        if (existingUser != null)
+        {
+            return Conflict("User already exists.");
+        }
+
+        await _userService.CreateUserAsync(user); // Use UserService to create user
+
+        // Redirect to the Login action in the HomeController after successful account creation
+        return RedirectToAction("Login", "Home");
+    }
+
+    // Hash the password using BCrypt
+    private string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(password);
     }
 
     private string GetGoogleIdFromSession()
@@ -115,6 +144,7 @@ public class ProfileController : ControllerBase
         await _userService.UpdateUserAsync(user);
         return Ok();
     }
+    
 }
 
 

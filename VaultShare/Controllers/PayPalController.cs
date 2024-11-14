@@ -26,3 +26,4 @@
 //     public decimal Amount { get; set; }
 //     public string RecipientId { get; set; }
 // }
+

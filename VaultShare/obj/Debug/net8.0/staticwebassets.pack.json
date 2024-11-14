@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/VaultShare.bundle.scp.css",
+      "PackagePath": "staticwebassets/VaultShare.bundle.scp.css"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.VaultShare.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.VaultShare.props",
+      "PackagePath": "build\\VaultShare.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.VaultShare.props",
+      "PackagePath": "buildMultiTargeting\\VaultShare.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.VaultShare.props",
+      "PackagePath": "buildTransitive\\VaultShare.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
