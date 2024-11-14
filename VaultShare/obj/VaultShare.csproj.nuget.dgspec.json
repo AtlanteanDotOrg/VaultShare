@@ -1,34 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\VaultShare.csproj": {}
+    "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/VaultShare.csproj": {}
   },
   "projects": {
-    "c:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\VaultShare.csproj": {
+    "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/VaultShare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\VaultShare.csproj",
+        "projectUniqueName": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/VaultShare.csproj",
         "projectName": "VaultShare",
-        "projectPath": "c:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\VaultShare.csproj",
-        "packagesPath": "C:\\Users\\cfreeman\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\",
+        "projectPath": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/VaultShare.csproj",
+        "packagesPath": "/Users/marvinevans/.nuget/packages/",
+        "outputPath": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\cfreeman\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/marvinevans/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/avidxchange/_packaging/nuget-shared-services/nuget/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
@@ -51,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
@@ -87,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

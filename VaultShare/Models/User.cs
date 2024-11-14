@@ -6,9 +6,11 @@ namespace VaultShare.Models
         public string GoogleId { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
 
         // Profile-related properties
         public string? Bio { get; set; } = string.Empty;
+        public string? Photo { get; set; } = string.Empty;
         public bool NotificationsEnabled { get; set; } = true;
 
         // Bank account information directly in User
