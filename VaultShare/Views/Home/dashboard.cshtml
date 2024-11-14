@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>VaultShare - Dashboard</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 
     <style>
         body {
@@ -115,24 +118,19 @@
 
     </style>
 </head>
-<body>
+<body data-google-id="@ViewData["GoogleId"]">
     <div class="container-boxes">
-        <br>
-        <h1>Welcome, user!</h1>
-        <br><br>
+        <h1>Welcome, @ViewData["Username"]!</h1>
         <div class="row text-center mt-4">
             <div class="col-md-4">
                 <div class="dashboard-card">
                     <h5 class="card-title">Transactions</h5>
                     <h2>$50 <small>/mo</small></h2>
                     <ul class="list-unstyled text-left">
-                        <li>Payment Description 1<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 2<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 3<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 4<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 5<span class="text-success">&#x2714;</span></li>
-                        <button class="btn btn-primary view-more-btn">View More</button>
+                        <li>Payment Description 1 <span class="text-success">&#x2714;</span></li>
+                        <li>Payment Description 2 <span class="text-success">&#x2714;</span></li>
                     </ul>
+                    <button class="view-more-btn">View More</button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -141,63 +139,31 @@
                     <h1>$100</h1>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="dashboard-card">
-                    <h5 class="card-title">Vault Members</h5>
-                    <ul class="friend-list">
-                <!-- COLUMN 1 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-
-                <!-- COLUMN 2 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-            </ul>
-
-            <button class="btn btn-primary view-more-btn2">View More</button>
-                </div>
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5 class="card-title">Vaults</h5>
+                <ul class="list-unstyled text-left">
+                    @foreach (var vault in (List<Vault>)ViewData["Vaults"])
+                    {
+                        <li>
+                            <strong>@vault.Name</strong>
+                            <p>ID: @vault.VaultId</p>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
-
+        </div>
         <div class="notifications mt-4">
             <h5 class="card-title">Notifications</h5>
-            <p><span class="notification-badge badge-error">Error</span> Group Wallet Roomates payment #5476282 requires 2 approvals</p>
-            <p><span class="notification-badge badge-group">Group Wallet</span> Group Wallet Roomates has requested a transaction approval</p>
-            <p><span class="notification-badge badge-feature">New feature</span> Sasha has requested to be your friend</p>
-            <p><span class="notification-badge badge-success">Success</span> Payment #12u2892 was successful</p>
+            <p><span class="badge badge-warning">Alert</span> Group Wallet Roomates payment requires 2 approvals</p>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const googleId = document.body.getAttribute("data-google-id");
+            console.log("Google ID:", googleId); // For debugging
+        });
+    </script>
 </body>
 </html>
