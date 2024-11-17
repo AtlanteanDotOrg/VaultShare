@@ -1,9 +1,15 @@
+@{
+    var activities = (List<ActivityModel>)ViewData["Activities"];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VaultShare - Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 
     <style>
         body {
@@ -12,7 +18,7 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
         .header {
             display: flex;
@@ -25,7 +31,21 @@
             color: #343a40;
             text-decoration: none;
         }
-        .header a:hover { text-decoration: underline; }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .dashboard-container {
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            width: 1200px;
+        }
+        .dashboard-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px);
+        }
         .dashboard-card {
             background-color: white;
             padding: 20px;
@@ -33,9 +53,15 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             height: 300px;
+            display: flex;
+            flex-direction: column; 
         }
-        .dashboard-card button { margin-top: 10px; }
-        .card-title { font-weight: bold; }
+        .dashboard-card button {
+            margin-top: 10px;
+        }
+        .card-title {
+            font-weight: bold;
+        }
         .notifications {
             background-color: white;
             padding: 15px;
@@ -43,161 +69,122 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
         }
-        .notification-badge {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: white;
-            display: inline-block;
-        }
-        .badge-error { background-color: #E74C3C; }
-        .badge-group { background-color: #F39C12; }
-        .badge-feature { background-color: #3498DB; }
-        .badge-success { background-color: #2ECC71; }
-        .container { position: relative; }
-        .container h1 { text-align: center; }
-
-        .friend-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            list-style-type: none; 
-            gap: 5px;
-        }
-        .friend-item {
-            display: flex;
-            align-items: center;
-        }
-        .profile-pic { margin-right: 10px; }
-
-        .profile-pic img {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .view-more-btn {
-            width: 100%; 
-            padding: 10px; 
-            font-size: 12px; 
-            border-radius: 15px; 
-            background-color: #5A2D71;
-            border-color: #5A2D71;
+        .container {
             position: relative;
-            top: 10px;
-            color: white;
         }
-        .view-more-btn:hover, .view-more-btn2:hover {
-            background-color: #452c63;
-            border-color: #452c63;
+        .container h1 {
+            text-align: center;
         }
-        .profile-pic2 { margin-right: 10px; }
-        .profile-pic2 img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
+        .balance-card h2 {
+            color: #6C3483;
+            font-weight: bold;
+        }
+        .dashboard-card.balance-card{
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;  
+            text-align: center;    
+            padding: 20px;       
+            box-shadow: none; 
+            color: #6C3483;
+            font-weight: bold;
         }
         .view-more-btn2 {
-            width: 100%; 
-            padding: 10px; 
-            font-size: 12px;
-            border-radius: 15px; 
-            background-color: #5A2D71;
-            border-color: #5A2D71;
-            position: relative;
-            bottom: 25px;
+            background-color: #6C3483;
+            border-color: #6C3483;
             color: white;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: none; 
+            outline: none; 
+            margin-top: auto;
         }
-        .container-boxes {
-            position: relative;
-            left: 325px;
+        .view-more-btn2:hover {
+            background-color: #6C3483;
+            border-color: #6C3483;
         }
-
+        .view-more-btn2:focus, .view-more-btn2:active {
+            background-color: #6C3483 !important;  
+            border-color: #6C3483 !important;     
+            box-shadow: none;  
+        }
     </style>
 </head>
-<body>
-    <div class="container-boxes">
-        <br>
-        <h1>Welcome, user!</h1>
-        <br><br>
+
+<body data-google-id="@ViewData["GoogleId"]">
+
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        <h1 style="color:#343a40; font-weight: bold">Welcome, @ViewData["Username"]!</h1>
         <div class="row text-center mt-4">
             <div class="col-md-4">
                 <div class="dashboard-card">
+                    <h5 class="card-title">Account Balance</h5>
+                    <div class="dashboard-card balance-card">
+                        <h1 id="user-balance">$@ViewData["Balance"]</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card">
                     <h5 class="card-title">Transactions</h5>
-                    <h2>$50 <small>/mo</small></h2>
+                    <br>
                     <ul class="list-unstyled text-left">
-                        <li>Payment Description 1<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 2<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 3<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 4<span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 5<span class="text-success">&#x2714;</span></li>
-                        <button class="btn btn-primary view-more-btn">View More</button>
+                        @foreach (var activity in activities)
+                        {
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>@activity.Description</span>
+                                @if (activity.IsPaid)
+                                {
+                                    <span class="text-success">
+                                        <i class="fas fa-check" style="color: green;"></i> <!-- Green checkmark -->
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">
+                                        <i class="fas fa-check" style="color: red;"></i> <!-- Green checkmark -->
+                                    </span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <br>
+                    <a href="@Url.Action("transactions", "Home")">
+                        <button class="btn btn-primary view-more-btn2">View More</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Vaults</h5>
+                    <ul class="list-unstyled text-left">
+                        @foreach (var vault in (List<Vault>)ViewData["Vaults"])
+                        {
+                            <li>
+                                <strong>@vault.Name</strong>
+                                <p>Balance: $@vault.Balance</p>
+                                <p>ID: @vault.VaultId</p>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="dashboard-card">
-                    <h5 class="card-title">Balance</h5>
-                    <h1>$100</h1>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="dashboard-card">
-                    <h5 class="card-title">Vault Members</h5>
-                    <ul class="friend-list">
-                <!-- COLUMN 1 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-
-                <!-- COLUMN 2 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-            </ul>
-
-            <button class="btn btn-primary view-more-btn2">View More</button>
-                </div>
-            </div>
         </div>
-
         <div class="notifications mt-4">
             <h5 class="card-title">Notifications</h5>
-            <p><span class="notification-badge badge-error">Error</span> Group Wallet Roomates payment #5476282 requires 2 approvals</p>
-            <p><span class="notification-badge badge-group">Group Wallet</span> Group Wallet Roomates has requested a transaction approval</p>
-            <p><span class="notification-badge badge-feature">New feature</span> Sasha has requested to be your friend</p>
-            <p><span class="notification-badge badge-success">Success</span> Payment #12u2892 was successful</p>
+            <p><span class="badge badge-warning">Alert</span> Group Wallet Roommates payment requires 2 approvals</p>
         </div>
     </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const googleId = document.body.getAttribute("data-google-id");
+        console.log("Google ID:", googleId); // Debugging purposes
+    });
+</script>
+
 </body>
 </html>
