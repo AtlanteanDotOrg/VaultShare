@@ -138,6 +138,57 @@ C:\Users\cfreeman\Desktop\Project2.0\Project\VaultShare\obj\Debug\net8.0\refint\
 C:\Users\cfreeman\Desktop\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.pdb
 C:\Users\cfreeman\Desktop\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.genruntimeconfig.cache
 C:\Users\cfreeman\Desktop\Project2.0\Project\VaultShare\obj\Debug\net8.0\ref\VaultShare.dll
+<<<<<<< HEAD
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.csproj.AssemblyReference.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.GeneratedMSBuildEditorConfig.editorconfig
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.AssemblyInfoInputs.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.AssemblyInfo.cs
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.csproj.CoreCompileInputs.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.MvcApplicationPartsAssemblyInfo.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.RazorAssemblyInfo.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.RazorAssemblyInfo.cs
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.sourcelink.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\refint\VaultShare.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.pdb
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\appsettings.Development.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\appsettings.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.staticwebassets.runtime.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.exe
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.deps.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.runtimeconfig.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.pdb
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\DnsClient.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\DotNetEnv.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Google.Authenticator.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\MongoDB.Bson.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\MongoDB.Driver.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\QRCoder.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\SharpCompress.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Snappier.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Sprache.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\Stripe.net.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\bin\Debug\net8.0\ZstdSharp.dll
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets.build.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets.development.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets\msbuild.VaultShare.Microsoft.AspNetCore.StaticWebAssets.props
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets\msbuild.build.VaultShare.props
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.VaultShare.props
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.VaultShare.props
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\staticwebassets.pack.json
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\scopedcss\bundle\VaultShare.styles.css
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\scopedcss\projectbundle\VaultShare.bundle.scp.css
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.csproj.Up2Date
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\VaultShare.genruntimeconfig.cache
+D:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\obj\Debug\net8.0\ref\VaultShare.dll
+=======
 C:\Users\shaee\Desktop\Project2.0\Project\VaultShare\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\shaee\Desktop\Project2.0\Project\VaultShare\bin\Debug\net8.0\appsettings.json
 C:\Users\shaee\Desktop\Project2.0\Project\VaultShare\bin\Debug\net8.0\VaultShare.staticwebassets.runtime.json
@@ -232,3 +283,4 @@ C:\Users\shaee\Desktop\VaultShare-1\VaultShare\obj\Debug\net8.0\refint\VaultShar
 C:\Users\shaee\Desktop\VaultShare-1\VaultShare\obj\Debug\net8.0\VaultShare.pdb
 C:\Users\shaee\Desktop\VaultShare-1\VaultShare\obj\Debug\net8.0\VaultShare.genruntimeconfig.cache
 C:\Users\shaee\Desktop\VaultShare-1\VaultShare\obj\Debug\net8.0\ref\VaultShare.dll
+>>>>>>> 16b37f8d33a62361a9a615a1debfa2a6421f99a6
