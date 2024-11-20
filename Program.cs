@@ -2,8 +2,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using MongoDB.Driver;
 using VaultShare.Models;
-using Stripe;  // Added Stripe import
+using Stripe;
 using DotNetEnv;
+using System.Text.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +30,23 @@ var database = mongoClient.GetDatabase("VaultShareDB");
 
 builder.Services.AddSingleton<IMongoClient>(mongoClient);
 builder.Services.AddScoped<UserService>();
+builder.Services.AddSingleton<USAuthService>();
+builder.Services.AddSingleton<StripeService>();
+builder.Services.AddSingleton<VaultService>();
 
+
+
+
+// Enable Session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set a reasonable session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Required for session to work without explicit user consent
+});
+
+
+// Add Authentication configuration
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -61,13 +82,19 @@ builder.Services.AddAuthentication(options =>
             Console.WriteLine($"Email: {email}");
             Console.WriteLine($"Name: {name}");
 
+            if (!string.IsNullOrEmpty(googleId))
+            {
+                Console.WriteLine("Storing Google ID in session: " + googleId);
+                context.HttpContext.Session.SetString("GoogleId", googleId);
+            }
+
             if (!string.IsNullOrEmpty(googleId) && !string.IsNullOrEmpty(email))
             {
                 var existingUser = await userService.GetUserByGoogleIdAsync(googleId);
                 if (existingUser == null)
                 {
                     Console.WriteLine("User not found, creating a new user.");
-                    var newUser = new VaultShare.Models.User  // Fully qualified name here
+                    var newUser = new VaultShare.Models.User
                     {
                         GoogleId = googleId,
                         Email = email,
@@ -94,9 +121,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Add Controllers with Views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+app.UseSession();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -107,11 +136,40 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// Use session middleware
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Login}/{id?}");
+
+app.MapGet("/test-usbank-auth", async () =>
+{
+    var authService = new USAuthService();
+    var accessToken = await authService.GetAccessTokenAsync();
+    return accessToken != null ? Results.Ok("Access Token retrieved successfully!") : Results.Problem("Failed to retrieve access token.");
+});
+
+// app.MapGet("/test-push-payment", async () =>
+// {
+//     var authService = new USAuthService();
+//     var accessToken = await authService.GetAccessTokenAsync();
+
+//     if (string.IsNullOrEmpty(accessToken))
+//     {
+//         return Results.Problem("Unable to obtain access token; cannot proceed with payment.");
+//     }
+
+//     var paymentService = new PaymentService(accessToken);
+//     var sender = new PaymentUser { CardNumber = "4111111111111111", CardExpiry = "12/25", CardCvc = "123" };
+//     var recipient = new PaymentUser { CardNumber = "4111111111111112", CardExpiry = "12/25" };
+//     decimal amount = 50.00M;
+
+//     var success = await paymentService.PushToCardAsync(sender, recipient, amount);
+//     return success ? Results.Ok("Payment successfully processed.") : Results.Problem("Failed to process payment.");
+// });
 
 app.Run();

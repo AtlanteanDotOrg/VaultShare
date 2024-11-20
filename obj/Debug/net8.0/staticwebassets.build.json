@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uEx2YexCbH8Tqm86h37hW95gIJ28vkBPPQChvieFMWI=",
+  "Hash": "wvgD3I+yKcbKIH6W7olZOi0wmUPYSxiiZb69q7i0a+U=",
   "Source": "VaultShare",
   "BasePath": "_content/VaultShare",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css",
+      "Identity": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css",
       "SourceId": "VaultShare",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/VaultShare",
       "RelativePath": "VaultShare.styles.css",
       "AssetKind": "All",
@@ -25,13 +25,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css"
+      "OriginalItemSpec": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css"
     },
     {
-      "Identity": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css",
+      "Identity": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css",
       "SourceId": "VaultShare",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/VaultShare",
       "RelativePath": "VaultShare.bundle.scp.css",
       "AssetKind": "All",
@@ -44,7 +44,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\cfreeman\\Desktop\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css"
+      "OriginalItemSpec": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css"
     }
   ]
 }

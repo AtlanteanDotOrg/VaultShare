@@ -54,13 +54,6 @@
             object-fit: cover;
         }
 
-
-        .approve-deny-buttons {
-            display: flex;
-            gap: 5px;
-            position: relative;
-        }
-
         .amount-positive {
             color: #27AE60; 
         }
@@ -75,189 +68,163 @@
             height: 40px;
         }
 
-                .friend-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            list-style-type: none;
-            gap: 5px;
+        .card-container {
+            position: relative;
+            width: 300px;
+            height: 180px;
+            margin: 20px auto;
+            perspective: 1000px;
         }
 
-        .friend-item {
+        .credit-card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transform: rotateY(0);
+            transition: transform 0.8s;
+        }
+
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #6C3483, #8E44AD);
+            color: white;
+            padding: 20px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .profile-pic {
-            margin-right: 10px; 
+        .card-back {
+            background-color: white;
+            transform: rotateY(180deg);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .profile-pic img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            object-fit: cover;
+        .credit-card.flipped {
+            transform: rotateY(180deg);
         }
 
-        .profile-pic2 {
-            margin-right: 10px;
+        .card-number, .expiry {
+            margin: 5px 0;
         }
 
-        .profile-pic2 img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-
-
-        .container {
-            position: relative;
-        }
-
-        .container-boxes {
-            position: relative;
-            left: 315px;
-        }
-        
-        .view-more-btn1 {
-            width: 100%; 
-            padding: 10px; 
-            font-size: 12px; 
-            border-radius: 15px;
-            background-color: #5B2C6F;
-            position: relative;
+        .flip-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 15px;
+            background-color: #6C3483;
             color: white;
-            top: 20px;
-            border-color: #5B2C6F;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .view-more-btn1:hover, .view-more-btn2:hover {
-            background-color: #452c63;
-            border-color: #452c63;
-        }
-        .view-more-btn2 {
-            width: 100%; 
-            padding: 10px; 
-            font-size: 12px; 
-            border-radius: 15px; 
-            background-color: #5B2C6F;
-            position: relative;
-            color: white;
-            bottom: 15px;
-            border-color: #5B2C6F;
+
+        .flip-button:hover {
+            background-color: #5A2D71;
         }
     </style>
 </head>
 <body>
-    <br><br><br><br><br><br><br>
     <div class="container-boxes">
         <div class="row text-center">
-            <div class="col-md-4">
+            <!-- Contributions Section -->
+            <div class="col-md-3">
                 <div class="dashboard-card">
                     <h5 class="card-title">Contributions</h5>
-                    <div class="contribution-row">
-                        <div class="profile-pic ml-2">
-                            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                        </div>
-                        <span>Description</span>
-                        <span class="amount-positive">$250</span>
+                    <div id="contributions">
+                        @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
+                        {
+                            <div class="contribution-row">
+                                <img src="path/to/profile/image" alt="Profile Picture" class="avatar">
+                                <span>@member.Role</span>
+                                <span class="amount-positive">$@member.UserId</span>
+                            </div>
+                        }
                     </div>
-                    <div class="contribution-row">
-                        <div class="profile-pic ml-2">
-                            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                        </div>
-                        <span>Description</span>
-                        <span class="amount-positive">$250</span>
-                    </div>
-                    <div class="contribution-row">
-                        <div class="profile-pic ml-2">
-                            <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                        </div>
-                        <span>Description</span>
-                        <span class="amount-positive">$250</span>
-                    </div>
-                    <button class="btn btn-primary view-more-btn1">View More</button>
+                    <button class="btn btn-primary">View More</button>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <!-- Vault Balance Section -->
+            <div class="col-md-3">
                 <div class="dashboard-card">
                     <h5 class="card-title">Vault Balance</h5>
-                    <h1>$1000</h1>
+                    <h2 id="vault-balance">
+                        $@((Vault)ViewData["SelectedVault"]).Balance
+                    </h2>
                 </div>
             </div>
 
+            <!-- Credit Card Section -->
+            <div class="col-md-3">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Vault Credit Card</h5>
+                    <div class="card-container">
+                        <div class="credit-card" id="credit-card">
+                            <!-- Front of the card -->
+                            <div class="card-front">
+                                <h4>VaultShare Card</h4>
+                                <div class="card-number">**** **** **** 1234</div>
+                                <div class="expiry">Exp: 05/29</div>
+                            </div>
+                            <!-- Back of the card -->
+                            <div class="card-back">
+                                <h4>Vault Details</h4>
+                                <p>Card Number: 1234-5678-9012-3456</p>
+                                <p>Expiration: 05/29</p>
+                                <p>CVV: 123</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="flip-button" onclick="flipCard()">Flip Card</button>
+                </div>
+            </div>
 
-            <div class="col-md-4">
+            <!-- Vault Members Section -->
+            <div class="col-md-3">
                 <div class="dashboard-card">
                     <h5 class="card-title">Vault Members</h5>
-                    <ul class="friend-list">
-                <!-- COLUMN 1-->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-
-                <!-- COLUMN 2 -->
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-                <li class="friend-item d-flex align-items-center">
-                    <div class="profile-pic2 ml-2">
-                        <img src="https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" alt="Profile Picture" class="rounded-circle" height="30">
-                    </div>
-                    Jane Doe
-                </li>
-            </ul>
-
-            <button class="btn btn-primary view-more-btn2">View More</button>
+                    <ul id="vault-members">
+                        @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
+                        {
+                            <li>
+                                <img src="path/to/member/image" alt="Profile Picture" class="avatar">
+                                <span>@member.UserId</span>
+                            </li>
+                        }
+                    </ul>
+                    <button class="btn btn-primary">View More</button>
                 </div>
             </div>
         </div>
 
-
+        <!-- Transactions Section -->
         <div class="transactions-section mt-4">
             <h5 class="card-title">Recent Transactions</h5>
-            <div class="transaction-row">
-                <img src="https://cdn01.justjaredjr.com/wp-content/uploads/2018/06/payne-jfksmiles/liam-payne-is-all-smiles-while-touching-down-at-jfk-airport-01.JPG" alt="User" class="avatar">
-                <span>Description</span>
-                <span class="amount-negative">-$100</span>
-                <div class="approve-deny-buttons">
-                    <button class="btn btn-success btn-sm">Approve</button>
-                    <button class="btn btn-danger btn-sm">Deny</button>
-                </div>
+            <div id="transactions">
+                <!-- Add transactions here -->
             </div>
-            <div class="transaction-row">
-                <img src="https://cdn01.justjaredjr.com/wp-content/uploads/2018/06/payne-jfksmiles/liam-payne-is-all-smiles-while-touching-down-at-jfk-airport-01.JPG" alt="User" class="avatar">
-                <span>Description</span>
-                <span class="amount-negative">-$100</span>
-                <div class="approve-deny-buttons">
-                    <button class="btn btn-success btn-sm">Approve</button>
-                    <button class="btn btn-danger btn-sm">Deny</button>
-                </div>
         </div>
     </div>
+
+    <script>
+        function flipCard() {
+            const card = document.getElementById('credit-card');
+            card.classList.toggle('flipped');
+        }
+    </script>
 </body>
 </html>
