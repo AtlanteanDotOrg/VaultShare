@@ -22,11 +22,37 @@ public class HomeController : Controller
     static byte [] entropy = {5, 6, 1, 3, 9, 8, 4};
 
     public HomeController(ILogger<HomeController> logger, UserService userService)
+    public HomeController(ILogger<HomeController> logger, UserService userService)
     {
         _logger = logger;
         _userService = userService;
 
+        _userService = userService;
+
         Console.WriteLine("HomeController instantiated.");
+    }
+
+    // Helper method to get GoogleId or User's Id from session and set it in ViewData
+    private bool SetUserIdInViewData()
+    {
+        var googleId = HttpContext.Session.GetString("GoogleId");
+        var id = HttpContext.Session.GetString("Id");
+
+        if (!string.IsNullOrEmpty(googleId))
+        {
+            Console.WriteLine("Google ID retrieved from session: " + googleId);
+            ViewData["GoogleId"] = googleId;
+            return true;
+        }
+        else if (!string.IsNullOrEmpty(id))
+        {
+            Console.WriteLine("ID retrieved from session: " + id);
+            ViewData["Id"] = id;
+            return true;
+        }
+
+        Console.WriteLine("Both Google ID and ID are null in session, redirecting to login.");
+        return false;
     }
 
     // Helper method to get GoogleId or User's Id from session and set it in ViewData
@@ -184,6 +210,18 @@ public class HomeController : Controller
             ViewData["Balance"] = 0; // Default balance
         }
 
+            var activities = new List<ActivityModel>
+        {
+            new ActivityModel { Description = "Payment for Groceries", IsPaid = true },
+            new ActivityModel { Description = "Rent Payment to Landlord", IsPaid = true },
+            new ActivityModel { Description = "Utility Bill Payment", IsPaid = false },
+            new ActivityModel { Description = "Subscription for Streaming Service", IsPaid = true },
+            new ActivityModel { Description = "Payment for Groceries", IsPaid = false }
+        };
+
+        // Pass the activities list to the View
+        ViewData["Activities"] = activities;
+
         return View("dashboard");
     }
 
@@ -194,11 +232,50 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
         return View();
     }
 
     public IActionResult VaultSendAsync()
+    public IActionResult VaultSendAsync()
     {
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
+        return View("vaultSend");
+    }
+
+    public IActionResult Vault(string vaultId)
+    {
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
+
+        var googleId = ViewData["GoogleId"].ToString();
+        var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
+        var userVaults = user?.Vaults;
+
+        if (userVaults == null)
+        {
+            _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
+            return RedirectToAction("Dashboard");
+        }
+
+        var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+
+        if (selectedVault == null)
+        {
+            _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
+            return RedirectToAction("Dashboard");
+        }
+
+        ViewData["SelectedVault"] = selectedVault;
+        return View("vault");
         if (!SetUserIdInViewData())
         {
             return RedirectToAction("Login");
@@ -247,73 +324,19 @@ public class HomeController : Controller
     public IActionResult Settings()
     {
         Console.WriteLine("Settings action triggered.");
-
-        // Attempt to retrieve GoogleId or Id from session
-        var googleId = HttpContext.Session.GetString("GoogleId");
-        var id = HttpContext.Session.GetString("Id");
-
-        User user = null;
-
-        if (!string.IsNullOrEmpty(googleId))
-        {
-            // Try to fetch user by GoogleId
-            Console.WriteLine("Google ID retrieved from session: " + googleId);
-            user = _userService.GetUserByGoogleIdAsync(googleId).Result;
-        }
-        else if (!string.IsNullOrEmpty(id))
-        {
-            // Try to fetch user by regular Id
-            Console.WriteLine("Regular ID retrieved from session: " + id);
-            user = _userService.GetUserByIdAsync(id).Result;
-        }
-
-        if (user != null)
-        {
-            // Populate ViewData with user information if found
-            ViewData["Username"] = user.Name;
-            ViewData["Bio"] = user.Bio;
-            ViewData["CardNumber"] = user.CardNumber;
-            ViewData["CardExpiry"] = user.CardExpiry;
-            ViewData["CardCvc"] = user.CardCvc;
-            ViewData["CardNickname"] = user.CardNickname;
-        }
-        else
-        {
-            Console.WriteLine("No valid user found, redirecting to login.");
-            return RedirectToAction("Login");
-        }
-
-        return View("settings");
+        return View("settings"); // Corresponds to settings.cshtml
     }
-
-
 
     public IActionResult Transactions()
     {
-        if (!SetUserIdInViewData())
-        {
-            return RedirectToAction("Login");
-        }
+        Console.WriteLine("Transactions action triggered.");
         return View("transactions"); // Corresponds to transactions.cshtml
     }
 
     public IActionResult Privacy()
     {
         Console.WriteLine("Privacy action triggered.");
-        if (!SetUserIdInViewData())
-        {
-            return RedirectToAction("Login");
-        }
         return View();
-    }
-
-    public async Task<IActionResult> Logout()
-    {
-        // Sign the user out
-        HttpContext.Session.SetString("UserName", "NA");
-        HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "invalid");
-        await HttpContext.SignOutAsync(); // Ensure this line is properly configured for sign-out
-        return RedirectToAction("Login"); // Redirects to the homepage after logout
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

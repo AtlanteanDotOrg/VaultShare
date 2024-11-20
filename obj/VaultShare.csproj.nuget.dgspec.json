@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\VaultShare.csproj": {}
+    "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj": {}
   },
   "projects": {
-    "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\VaultShare.csproj": {
+    "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\VaultShare.csproj",
+        "projectUniqueName": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj",
         "projectName": "VaultShare",
-        "projectPath": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\VaultShare.csproj",
-        "packagesPath": "C:\\Users\\atlan\\.nuget\\packages\\",
-        "outputPath": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\",
+        "projectPath": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj",
+        "packagesPath": "C:\\Users\\shaee\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\atlan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\shaee\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

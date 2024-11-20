@@ -1,3 +1,6 @@
+@{
+    var activities = (List<ActivityModel>)ViewData["Activities"];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VaultShare - Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
     <style>
         body {
             background-color: #F8C471;
@@ -28,6 +34,18 @@
         .header a:hover {
             text-decoration: underline;
         }
+        .dashboard-container {
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            width: 1200px;
+        }
+        .dashboard-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px);
+        }
         .dashboard-card {
             background-color: white;
             padding: 20px;
@@ -35,6 +53,8 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             height: 300px;
+            display: flex;
+            flex-direction: column; 
         }
         .dashboard-card button {
             margin-top: 10px;
@@ -59,26 +79,81 @@
             color: #6C3483;
             font-weight: bold;
         }
+        .dashboard-card.balance-card{
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;  
+            text-align: center;    
+            padding: 20px;       
+            box-shadow: none; 
+            color: #6C3483;
+            font-weight: bold;
+        }
+        .view-more-btn2 {
+            background-color: #6C3483;
+            border-color: #6C3483;
+            color: white;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: none; 
+            outline: none; 
+            margin-top: auto;
+        }
+        .view-more-btn2:hover {
+            background-color: #6C3483;
+            border-color: #6C3483;
+        }
+        .view-more-btn2:focus, .view-more-btn2:active {
+            background-color: #6C3483 !important;  
+            border-color: #6C3483 !important;     
+            box-shadow: none;  
+        }
     </style>
 </head>
+
 <body data-google-id="@ViewData["GoogleId"]">
-    <div class="container-boxes">
-        <h1>Welcome, @ViewData["Username"]!</h1>
+
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        <h1 style="color:#343a40; font-weight: bold">Welcome, @ViewData["Username"]!</h1>
         <div class="row text-center mt-4">
             <div class="col-md-4">
-                <div class="dashboard-card balance-card">
+                <div class="dashboard-card">
                     <h5 class="card-title">Account Balance</h5>
-                    <h2 id="user-balance">$@ViewData["Balance"]</h2>
+                    <div class="dashboard-card balance-card">
+                        <h1 id="user-balance">$@ViewData["Balance"]</h1>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="dashboard-card">
                     <h5 class="card-title">Transactions</h5>
+                    <br>
                     <ul class="list-unstyled text-left">
-                        <li>Payment Description 1 <span class="text-success">&#x2714;</span></li>
-                        <li>Payment Description 2 <span class="text-success">&#x2714;</span></li>
+                        @foreach (var activity in activities)
+                        {
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>@activity.Description</span>
+                                @if (activity.IsPaid)
+                                {
+                                    <span class="text-success">
+                                        <i class="fas fa-check" style="color: green;"></i> <!-- Green checkmark -->
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">
+                                        <i class="fas fa-check" style="color: red;"></i> <!-- Green checkmark -->
+                                    </span>
+                                }
+                            </li>
+                        }
                     </ul>
-                    <button class="view-more-btn">View More</button>
+                    <br>
+                    <a href="@Url.Action("transactions", "Home")">
+                        <button class="btn btn-primary view-more-btn2">View More</button>
+                    </a>
                 </div>
             </div>
             <div class="col-md-4">
@@ -102,11 +177,14 @@
             <p><span class="badge badge-warning">Alert</span> Group Wallet Roommates payment requires 2 approvals</p>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const googleId = document.body.getAttribute("data-google-id");
-            console.log("Google ID:", googleId); // Debugging purposes
-        });
-    </script>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const googleId = document.body.getAttribute("data-google-id");
+        console.log("Google ID:", googleId); // Debugging purposes
+    });
+</script>
+
 </body>
 </html>

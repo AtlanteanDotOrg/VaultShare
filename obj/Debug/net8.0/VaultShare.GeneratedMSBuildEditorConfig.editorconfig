@@ -9,12 +9,17 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VaultShare
 build_property.RootNamespace = VaultShare
+<<<<<<< HEAD
 build_property.ProjectDir = d:\school projects\SDPFinalProject\Project2.0\Project\VaultShare\
+=======
+build_property.ProjectDir = C:\Users\shaee\Desktop\VaultShare-1\VaultShare\
+>>>>>>> 16b37f8d33a62361a9a615a1debfa2a6421f99a6
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = d:\school projects\SDPFinalProject\Project2.0\Project\VaultShare
 build_property._RazorSourceGeneratorDebug = 
 
@@ -67,5 +72,67 @@ build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [d:/school projects/SDPFinalProject/Project2.0/Project/VaultShare/Views/Shared/_Layout.cshtml]
+=======
+build_property.MSBuildProjectDirectory = C:\Users\shaee\Desktop\VaultShare-1\VaultShare
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxkYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/forgotpassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxmb3Jnb3RwYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/friends.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxmcmllbmRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxsb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/passwordreset.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwYXNzd29yZHJlc2V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxyZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxzZXR0aW5ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/transactions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx0cmFuc2FjdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/vault.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx2YXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/vaultSend.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx2YXVsdFNlbmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/_Layout.cshtml]
+>>>>>>> 16b37f8d33a62361a9a615a1debfa2a6421f99a6
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nmfh0eivnz

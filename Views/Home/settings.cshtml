@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <title>VaultShare - Settings</title>
     <style>
         body { background-color: #F8C471; }
-        .container-settings {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .setting-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
         }
         .settings-section {
             background-color: white;
@@ -102,6 +102,7 @@
         }
         .button-group {
             display: flex;
+            flex-direction: column; 
         }
 
         .form-control-change1 {
@@ -252,6 +253,8 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
 
 </head>
 <body>
+<br><br><br><br><br><br><br><br>
+<div class="settings-page">
     <div class="container-settings">
         <div class="row">
             <div class="col-md-4">
@@ -260,7 +263,7 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
                         <img src="https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" alt="User Avatar">
                     </div>
                     <h5>#@ViewData["Username"]</h5>
-                    <p>$1500</p>
+                    <p><strong>Account Balance: </strong>$1000</p>
                     <p>@ViewData["Bio"]</p>
                 </div>
                 <div class="input-field">
@@ -270,7 +273,7 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
                 </div>
                 <div class="input-field">
                     <span>Change Bio</span>
-                    <input type="text" class="form-control-change2" value="@ViewData["Bio"]" placeholder="Input">
+                    <input type="text" class="form-control-change2" value="@ViewData["Bio"]" placeholder="Input" style="position relative; left: 25px">
                     <button class="btn btn-sm btn-outline">&times;</button>
                 </div>
             </div>
@@ -318,5 +321,6 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

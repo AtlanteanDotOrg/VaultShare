@@ -1,7 +1,11 @@
 {
   "Files": [
     {
+<<<<<<< HEAD
       "Id": "d:\\school projects\\SDPFinalProject\\Project2.0\\Project\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css",
+=======
+      "Id": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css",
+>>>>>>> 16b37f8d33a62361a9a615a1debfa2a6421f99a6
       "PackagePath": "staticwebassets\\VaultShare.bundle.scp.css"
     },
     {

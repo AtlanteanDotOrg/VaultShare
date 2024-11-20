@@ -28,8 +28,10 @@ body[b-nmfh0eivnz] {
   color: #343a40;
   text-decoration: none;
 }
+
 .header a:hover[b-nmfh0eivnz] {
-  text-decoration: underline;
+  font-weight: bold; /* Make the text bold on hover */
+  text-decoration: none; /* Ensure no underline on hover */
 }
 
 .flex-container[b-nmfh0eivnz] {
@@ -66,19 +68,6 @@ body[b-nmfh0eivnz] {
   right: 35px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .btn-primary[b-nmfh0eivnz] {
   color: #fff;
   background-color: #1b6ec2;
@@ -95,14 +84,3 @@ button.accept-policy[b-nmfh0eivnz] {
   line-height: inherit;
 }
 
-.footer[b-nmfh0eivnz] {
-  position: absolute; /* Keep the footer absolute */
-  bottom: 0;
-  width: 100%; /* Full width */
-  white-space: nowrap;
-  line-height: 60px;
-  margin: 0; /* Remove any default margin */
-  padding: 0; /* Remove any default padding */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  background-color: white;
-}
