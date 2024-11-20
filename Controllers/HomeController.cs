@@ -272,6 +272,11 @@ public class HomeController : Controller
         return View("settings"); // Corresponds to settings.cshtml
     }
 
+
+
+public IActionResult Transactions()
+{
+    if (!SetUserIdInViewData())
     public IActionResult Transactions()
     {
         Console.WriteLine("Transactions action triggered.");
@@ -282,6 +287,13 @@ public class HomeController : Controller
     {
         Console.WriteLine("Privacy action triggered.");
         return View();
+    }
+    // log out function 
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(); 
+        TempData["LogoutMessage"] = "Successfully logged out!";
+        return RedirectToAction("Login"); 
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
