@@ -20,8 +20,6 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly UserService _userService;
     static byte [] entropy = {5, 6, 1, 3, 9, 8, 4};
-
-    public HomeController(ILogger<HomeController> logger, UserService userService)
     public HomeController(ILogger<HomeController> logger, UserService userService)
     {
         _logger = logger;
@@ -30,29 +28,6 @@ public class HomeController : Controller
         _userService = userService;
 
         Console.WriteLine("HomeController instantiated.");
-    }
-
-    // Helper method to get GoogleId or User's Id from session and set it in ViewData
-    private bool SetUserIdInViewData()
-    {
-        var googleId = HttpContext.Session.GetString("GoogleId");
-        var id = HttpContext.Session.GetString("Id");
-
-        if (!string.IsNullOrEmpty(googleId))
-        {
-            Console.WriteLine("Google ID retrieved from session: " + googleId);
-            ViewData["GoogleId"] = googleId;
-            return true;
-        }
-        else if (!string.IsNullOrEmpty(id))
-        {
-            Console.WriteLine("ID retrieved from session: " + id);
-            ViewData["Id"] = id;
-            return true;
-        }
-
-        Console.WriteLine("Both Google ID and ID are null in session, redirecting to login.");
-        return false;
     }
 
     // Helper method to get GoogleId or User's Id from session and set it in ViewData
@@ -240,7 +215,6 @@ public class HomeController : Controller
     }
 
     public IActionResult VaultSendAsync()
-    public IActionResult VaultSendAsync()
     {
         if (!SetUserIdInViewData())
         {
@@ -281,35 +255,6 @@ public class HomeController : Controller
             return RedirectToAction("Login");
         }
         return View("vaultSend");
-    }
-
-    public IActionResult Vault(string vaultId)
-    {
-        if (!SetUserIdInViewData())
-        {
-            return RedirectToAction("Login");
-        }
-
-        var googleId = ViewData["GoogleId"].ToString();
-        var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
-        var userVaults = user?.Vaults;
-
-        if (userVaults == null)
-        {
-            _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
-            return RedirectToAction("Dashboard");
-        }
-
-        var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
-
-        if (selectedVault == null)
-        {
-            _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
-            return RedirectToAction("Dashboard");
-        }
-
-        ViewData["SelectedVault"] = selectedVault;
-        return View("vault");
     }
 
     public IActionResult Friends()
