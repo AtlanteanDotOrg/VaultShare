@@ -9,71 +9,71 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VaultShare
 build_property.RootNamespace = VaultShare
-build_property.ProjectDir = C:\Users\shaee\Desktop\VaultShare-1\VaultShare\
+build_property.ProjectDir = /Users/marvinevans/github/SoftDevProj/VaultShare/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\shaee\Desktop\VaultShare-1\VaultShare
+build_property.MSBuildProjectDirectory = /Users/marvinevans/github/SoftDevProj/VaultShare
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/dashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxkYXNoYm9hcmQuY3NodG1s
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9kYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/forgotpassword.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxmb3Jnb3RwYXNzd29yZC5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/forgotpassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9mb3Jnb3RwYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/friends.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxmcmllbmRzLmNzaHRtbA==
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/friends.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9mcmllbmRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxsb2dpbi5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9sb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/passwordreset.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwYXNzd29yZHJlc2V0LmNzaHRtbA==
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/passwordreset.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9wYXNzd29yZHJlc2V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/register.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxyZWdpc3Rlci5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9yZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/settings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxzZXR0aW5ncy5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9zZXR0aW5ncy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/transactions.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx0cmFuc2FjdGlvbnMuY3NodG1s
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/transactions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS90cmFuc2FjdGlvbnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/vault.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx2YXVsdC5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/vault.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS92YXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Home/vaultSend.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVx2YXVsdFNlbmQuY3NodG1s
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Home/vaultSend.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS92YXVsdFNlbmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/shaee/Desktop/VaultShare-1/VaultShare/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-nmfh0eivnz
+[/Users/marvinevans/github/SoftDevProj/VaultShare/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-8d53njwzkl

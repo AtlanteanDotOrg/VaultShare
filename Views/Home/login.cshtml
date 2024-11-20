@@ -1,6 +1,9 @@
 @{
     Layout = null;
 }
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +102,24 @@
 </head>
 <body>
     <div class="login-container">
+        @if (TempData["LoginError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["LoginError"]
+            </div>
+        }
+        @if (ViewContext.HttpContext.Request.Query.ContainsKey("message"))
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewContext.HttpContext.Request.Query["message"]
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="alert alert-success">
+                @successMessage
+            </div>
+        }
         <h1>VaultShare</h1>
         <p>A Group Wallet Solution</p>
         <form asp-controller="Home" asp-action="NoOauthLogin" method="post">

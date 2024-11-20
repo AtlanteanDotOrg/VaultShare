@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2uNAXjA3Mxt6qMJbcSw8fdZAUyPE4dkWzPjWyzd2DOU=",
+  "Hash": "L+n+3vnPq3lcgabOuJrlq3a112ykbI+TS9oVtjd+NzY=",
   "Source": "VaultShare",
   "BasePath": "_content/VaultShare",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css",
+      "Identity": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/VaultShare.styles.css",
       "SourceId": "VaultShare",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/",
       "BasePath": "_content/VaultShare",
       "RelativePath": "VaultShare.styles.css",
       "AssetKind": "All",
@@ -25,13 +25,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VaultShare.styles.css"
+      "OriginalItemSpec": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/VaultShare.styles.css"
     },
     {
-      "Identity": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css",
+      "Identity": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/VaultShare.bundle.scp.css",
       "SourceId": "VaultShare",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/",
       "BasePath": "_content/VaultShare",
       "RelativePath": "VaultShare.bundle.scp.css",
       "AssetKind": "All",
@@ -44,7 +44,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VaultShare.bundle.scp.css"
+      "OriginalItemSpec": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/VaultShare.bundle.scp.css"
     }
   ]
 }

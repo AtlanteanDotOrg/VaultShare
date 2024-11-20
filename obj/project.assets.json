@@ -5579,19 +5579,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\shaee\\.nuget\\packages\\": {}
+    "/Users/marvinevans/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj",
+      "projectUniqueName": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare.csproj",
       "projectName": "VaultShare",
-      "projectPath": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\VaultShare.csproj",
-      "packagesPath": "C:\\Users\\shaee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\obj\\",
+      "projectPath": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare.csproj",
+      "packagesPath": "/Users/marvinevans/.nuget/packages/",
+      "outputPath": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\shaee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/marvinevans/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -5660,7 +5660,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

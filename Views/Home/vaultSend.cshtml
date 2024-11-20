@@ -49,14 +49,65 @@
             margin-top: 20px;
         }
     </style>
-<script>
+</head>
+<body>
+    <div class="payment-container">
+        <h5>Sending Money</h5>
+        <p>How much would you like to send?</p>
+        
+        <!-- Custom amount input field -->
+        <input type="number" id="custom-amount" class="form-control mb-3" placeholder="Enter custom amount" step="0.01">
+
+        <!-- Preset amount buttons -->
+        <div class="amount-buttons" role="group">
+            <button type="button" class="btn">$10.00</button>
+            <button type="button" class="btn">$50.00</button>
+            <button type="button" class="btn active">$100.00</button>
+            <button type="button" class="btn">$200.00</button>
+        </div>
+
+        <div class="to-section">
+            <p>To</p>
+            <select class="form-control mb-3" id="vault-select">
+                <option value="">-- Select Vault --</option>
+            </select>
+
+            <p class="mt-3">Or</p>
+
+            <select class="form-control" id="recipient-select">
+                <option value="">-- Select Friend --</option>
+            </select>
+        </div>
+
+        <!-- Description input field -->
+        <div class="description-section mt-4">
+            <label for="payment-description" class="form-label">Description (Optional)</label>
+            <textarea 
+                id="payment-description" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Add a note or reason for this payment..."></textarea>
+        </div>
+
+        <button class="submit-button-money">Send Money</button>
+    </div>
+
+    <script>
     document.addEventListener("DOMContentLoaded", function() {
         console.log("[DOMContentLoaded] Event triggered.");
-const googleId = "@ViewData["GoogleId"]";
-        console.log("GoogleId obtained:", googleId);
+        const googleId = "@ViewData["GoogleId"]";
+        const id = "@ViewData["Id"]";
 
-        fetchFriends(googleId);
-        fetchVaults(googleId);
+        if (googleId.length == 0 && id.length >= 1) {
+            console.log("Id obtained:", id);
+            fetchFriendsReg(id);
+            fetchVaultsReg(id);
+        } else {
+            console.log("GoogleId obtained:", googleId);
+            fetchFriends(googleId);
+            fetchVaults(googleId);
+        }
+        
         console.log("Initiated fetching friends and vaults for GoogleId:", googleId);
 
         document.querySelector(".submit-button-money").addEventListener("click", sendPayment);
@@ -116,9 +167,41 @@ const googleId = "@ViewData["GoogleId"]";
         console.log("Friends added to recipient select dropdown.");
     }
 
+    async function fetchFriendsReg(id) {
+        console.log("Fetching friends for Id:", id);
+        const response = await fetch(`/api/payment/friends-reg/${id}`);
+        const friends = await response.json();
+        console.log("Friends fetched:", friends);
+
+        const recipientSelect = document.querySelector("#recipient-select");
+        friends.forEach(friend => {
+            const option = document.createElement("option");
+            option.value = friend.id;
+            option.textContent = `${friend.name} (#${friend.email})`;
+            recipientSelect.appendChild(option);
+        });
+        console.log("Friends added to recipient select dropdown.");
+    }
+
     async function fetchVaults(googleId) {
         console.log("Fetching vaults for GoogleId:", googleId);
         const response = await fetch(`/api/payment/vaults/${googleId}`);
+        const vaults = await response.json();
+        console.log("Vaults fetched:", vaults);
+
+        const vaultSelect = document.querySelector("#vault-select");
+        vaults.forEach(vault => {
+            const option = document.createElement("option");
+            option.value = vault.vaultId;
+            option.textContent = vault.name;
+            vaultSelect.appendChild(option);
+        });
+        console.log("Vaults added to vault select dropdown.");
+    }
+
+    async function fetchVaultsReg(id) {
+        console.log("Fetching vaults for Id:", id);
+        const response = await fetch(`/api/payment/vaults-reg/${id}`);
         const vaults = await response.json();
         console.log("Vaults fetched:", vaults);
 
@@ -147,6 +230,7 @@ const googleId = "@ViewData["GoogleId"]";
 
         const selectedVault = document.querySelector("#vault-select").value;
         const selectedRecipient = document.querySelector("#recipient-select").value;
+        const description = document.querySelector("#payment-description").value;
 
         if (selectedVault && selectedRecipient) {
             console.warn("Both vault and friend selected, aborting payment.");
@@ -162,6 +246,7 @@ const googleId = "@ViewData["GoogleId"]";
         const recipientId = selectedVault || selectedRecipient;
         console.log("Recipient ID:", recipientId);
         console.log("Amount to be sent:", amount);
+        console.log("Description entered:", description);
 
         const response = await fetch('/api/payment/send', {
             method: 'POST',
@@ -169,7 +254,8 @@ const googleId = "@ViewData["GoogleId"]";
             body: JSON.stringify({
                 googleId: "@ViewData["GoogleId"]",
                 recipientId: recipientId,
-                amount: amount
+                amount: amount,
+                description: description
             })
         });
         console.log("Payment request sent, awaiting response...");
@@ -185,37 +271,5 @@ const googleId = "@ViewData["GoogleId"]";
     }
 </script>
 
-</head>
-<body>
-    <div class="payment-container">
-        <h5>Sending Money</h5>
-        <p>How much would you like to send?</p>
-        
-        <!-- Custom amount input field -->
-        <input type="number" id="custom-amount" class="form-control mb-3" placeholder="Enter custom amount" step="0.01">
-
-        <!-- Preset amount buttons -->
-        <div class="amount-buttons" role="group">
-            <button type="button" class="btn">$10.00</button>
-            <button type="button" class="btn">$50.00</button>
-            <button type="button" class="btn active">$100.00</button>
-            <button type="button" class="btn">$200.00</button>
-        </div>
-
-        <div class="to-section">
-            <p>To</p>
-            <select class="form-control mb-3" id="vault-select">
-                <option value="">-- Select Vault --</option>
-            </select>
-
-            <p class="mt-3">Or</p>
-
-            <select class="form-control" id="recipient-select">
-                <option value="">-- Select Friend --</option>
-            </select>
-        </div>
-
-        <button class="submit-button-money">Send Money</button>
-    </div>
 </body>
 </html>

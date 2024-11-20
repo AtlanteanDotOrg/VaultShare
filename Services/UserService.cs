@@ -104,6 +104,15 @@ public class UserService
         return users;
     }
 
+    public async Task<List<User>> GetAllUsersExceptRegAsync(string id)
+    {
+        _logger.LogInformation("Retrieving all users except for GoogleId: {GoogleId}", id);
+        var filter = Builders<User>.Filter.Ne(u => u.Id, id);
+        var users = await _users.Find(filter).ToListAsync();
+        _logger.LogInformation("Retrieved {Count} potential friends for GoogleId: {GoogleId}", users.Count, id);
+        return users;
+    }
+
     public async Task UpdateUserAsync(User user)
     {
         var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);

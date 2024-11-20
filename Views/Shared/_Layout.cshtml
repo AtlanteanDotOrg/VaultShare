@@ -112,31 +112,63 @@
         // Load friends for adding to the new vault
         async function loadFriends() {
             const googleId = "@ViewData["GoogleId"]";
-            console.log("Loading friends for GoogleId:", googleId);
-            const response = await fetch(`/api/payment/friends/${googleId}`);
-            if (response.ok) {
-                const friends = await response.json();
-                const friendsListDiv = document.getElementById("friendsList");
-                friendsListDiv.innerHTML = "";
-                friends.forEach(friend => {
-                    const friendDiv = document.createElement("div");
-                    friendDiv.className = "friend-item";
-                    friendDiv.innerHTML = `
-                        <label>
-                            <input type="checkbox" name="friend" value="${friend.id}">
-                            ${friend.name}
-                        </label>
-                        <select name="role_${friend.id}">
-                            <option value="admin">Admin</option>
-                            <option value="contributor">Contributor</option>
-                        </select>
-                    `;
-                    friendsListDiv.appendChild(friendDiv);
-                });
+            const id = "@ViewData["Id"]";
+
+            if (googleId.length == 0 && id.length >= 1) {
+                console.log("Loading friends for Id:", id);
+                const response = await fetch(`/api/payment/friends-reg/${id}`);
+                if (response.ok) {
+                    const friends = await response.json();
+                    const friendsListDiv = document.getElementById("friendsList");
+                    friendsListDiv.innerHTML = "";
+                    friends.forEach(friend => {
+                        const friendDiv = document.createElement("div");
+                        friendDiv.className = "friend-item";
+                        friendDiv.innerHTML = `
+                            <label>
+                                <input type="checkbox" name="friend" value="${friend.id}">
+                                ${friend.name}
+                            </label>
+                            <select name="role_${friend.id}">
+                                <option value="admin">Admin</option>
+                                <option value="contributor">Contributor</option>
+                            </select>
+                        `;
+                        friendsListDiv.appendChild(friendDiv);
+                    });
+                } else {
+                    console.error("Failed to load friends");
+                    alert("Failed to load friends");
+                }
             } else {
-                console.error("Failed to load friends");
-                alert("Failed to load friends");
+                console.log("Loading friends for GoogleId:", googleId);
+                const response = await fetch(`/api/payment/friends/${googleId}`);
+                if (response.ok) {
+                    const friends = await response.json();
+                    const friendsListDiv = document.getElementById("friendsList");
+                    friendsListDiv.innerHTML = "";
+                    friends.forEach(friend => {
+                        const friendDiv = document.createElement("div");
+                        friendDiv.className = "friend-item";
+                        friendDiv.innerHTML = `
+                            <label>
+                                <input type="checkbox" name="friend" value="${friend.id}">
+                                ${friend.name}
+                            </label>
+                            <select name="role_${friend.id}">
+                                <option value="admin">Admin</option>
+                                <option value="contributor">Contributor</option>
+                            </select>
+                        `;
+                        friendsListDiv.appendChild(friendDiv);
+                    });
+                } else {
+                    console.error("Failed to load friends");
+                    alert("Failed to load friends");
+                }
             }
+            
+
         }
 
         // Create a vault with selected friends
