@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\VaultShare.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\wwwroot\\uploads\\0f47ff01-d825-43de-a946-81e7dad2c07a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\0f47ff01-d825-43de-a946-81e7dad2c07a.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\wwwroot\\uploads\\3f22e523-c7c0-4b2a-a184-3fd97f85b8a0.jpg",
+      "PackagePath": "staticwebassets\\uploads\\3f22e523-c7c0-4b2a-a184-3fd97f85b8a0.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaee\\Desktop\\VaultShare-1\\VaultShare\\wwwroot\\uploads\\8ac09c10-0081-47a5-b2c5-39e9bd2ed8a3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\8ac09c10-0081-47a5-b2c5-39e9bd2ed8a3.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.VaultShare.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

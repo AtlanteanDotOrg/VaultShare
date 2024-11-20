@@ -99,6 +99,13 @@
 </head>
 <body>
     <div class="login-container">
+        @* pulling in tempdata from controller *@
+        @if (TempData["LogoutMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["LogoutMessage"]
+            </div>
+        }
         <h1>VaultShare</h1>
         <p>A Group Wallet Solution</p>
         <form asp-controller="Home" asp-action="NoOauthLogin" method="post">
@@ -133,5 +140,16 @@
             <a href="@Url.Action("Register", "Home")" class="btn btn-purple mt-3">Register</a>
         </div>
     </div>
+        @* lets user know they logged out successfully *@
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const logoutSuccess = urlParams.get('logoutSuccess');
+                
+                if (logoutSuccess) {
+                    alert('Logout successful!');
+                }
+            });
+        </script>
 </body>
 </html>
