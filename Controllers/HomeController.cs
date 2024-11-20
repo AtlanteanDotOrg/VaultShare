@@ -266,7 +266,6 @@ public class HomeController : Controller
     }
 
 
-
 public IActionResult Transactions()
 {
     if (!SetUserIdInViewData())
@@ -299,10 +298,11 @@ public IActionResult Transactions()
         }
         return View();
     }
-
+    // log out function 
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(); 
+        TempData["LogoutMessage"] = "Successfully logged out!";
         return RedirectToAction("Login"); 
     }
 
