@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Google.Authenticator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Security.Cryptography;
 
 namespace VaultShare.Controllers;
 
@@ -12,10 +19,12 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly UserService _userService;
-
+    static byte [] entropy = {5, 6, 1, 3, 9, 8, 4};
     public HomeController(ILogger<HomeController> logger, UserService userService)
     {
         _logger = logger;
+        _userService = userService;
+
         _userService = userService;
 
         Console.WriteLine("HomeController instantiated.");
@@ -54,6 +63,8 @@ public class HomeController : Controller
     public IActionResult Login()
     {
         Console.WriteLine("Login action triggered.");
+        HttpContext.Session.SetString("UserName", "NA");
+        HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "invalid");
         return View("login"); // Corresponds to login.cshtml
     }
 
@@ -61,36 +72,59 @@ public class HomeController : Controller
     public async Task<IActionResult> NoOauthLogin(string email, string password)
     {
         Console.WriteLine("NoOauthLogin action triggered.");
+        bool status = false;
+        var usernameCheck = HttpContext.Session.GetString("UserName");
+        var authCheck = HttpContext.Session.GetString("IsValidTwoFactorAuthentication");
 
         // Fetch the user from the database
         var user = await _userService.GetUserByEmailAsync(email);
 
-        // Check if the user exists and if the password matches
-        if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+        if(usernameCheck.Equals("NA") || authCheck.Equals("invalid"))
         {
-            // Create claims for the authenticated user
-            var claims = new List<Claim>
+            //generate authentication key
+            string UserUniqueKey = (user.Username.ToString() + "2nD07gL1");
+
+            // Check if the user exists and if the password matches
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Id", user.Id.ToString()) // Optional: Custom claim for UserId
-            };
+                HttpContext.Session.SetString("UserName", user.Username.ToString());
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+                //Two Factor Authentication Setup
+                TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+                var setupInfo = TwoFacAuth.GenerateSetupCode("VaultShare", user.Username, ConvertSecretToBytes(UserUniqueKey), 300);
+                HttpContext.Session.SetString("UserUniqueKey", UserUniqueKey);
+                ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+                ViewBag.SetupCode = setupInfo.ManualEntryKey;
+                status = true;
 
-            // Sign in the user using cookies
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                // Create claims for the authenticated user
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim("Id", user.Id.ToString()) // Optional: Custom claim for UserId
+                };
 
-            // Set the user's ID in session
-            HttpContext.Session.SetString("Id", user.Id.ToString());
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
 
-            Console.WriteLine("User successfully logged in and ID stored in session.");
+                // Sign in the user using cookies
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                // Set the user's ID in session
+                HttpContext.Session.SetString("Id", user.Id.ToString());
+
+                Console.WriteLine("User successfully logged in and ID stored in session.");
+            }
+        }
+        else
+        {
             return RedirectToAction("Dashboard");
         }
 
         // If login failed, show an error message
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        ViewBag.Status = status;
         return View("login"); // Return to login view with error
     }
 
@@ -173,6 +207,10 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
         return View();
     }
 
@@ -212,6 +250,11 @@ public class HomeController : Controller
 
         ViewData["SelectedVault"] = selectedVault;
         return View("vault");
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
+        return View("vaultSend");
     }
 
     public IActionResult Friends()
@@ -226,76 +269,23 @@ public class HomeController : Controller
     public IActionResult Settings()
     {
         Console.WriteLine("Settings action triggered.");
-
-        // Attempt to retrieve GoogleId or Id from session
-        var googleId = HttpContext.Session.GetString("GoogleId");
-        var id = HttpContext.Session.GetString("Id");
-
-        User user = null;
-
-        if (!string.IsNullOrEmpty(googleId))
-        {
-            // Try to fetch user by GoogleId
-            Console.WriteLine("Google ID retrieved from session: " + googleId);
-            user = _userService.GetUserByGoogleIdAsync(googleId).Result;
-        }
-        else if (!string.IsNullOrEmpty(id))
-        {
-            // Try to fetch user by regular Id
-            Console.WriteLine("Regular ID retrieved from session: " + id);
-            user = _userService.GetUserByIdAsync(id).Result;
-        }
-
-        if (user != null)
-        {
-            // Populate ViewData with user information if found
-            ViewData["Username"] = user.Name;
-            ViewData["Bio"] = user.Bio;
-            ViewData["CardNumber"] = user.CardNumber;
-            ViewData["CardExpiry"] = user.CardExpiry;
-            ViewData["CardCvc"] = user.CardCvc;
-            ViewData["CardNickname"] = user.CardNickname;
-        }
-        else
-        {
-            Console.WriteLine("No valid user found, redirecting to login.");
-            return RedirectToAction("Login");
-        }
-
-        return View("settings");
+        return View("settings"); // Corresponds to settings.cshtml
     }
+
 
 
 public IActionResult Transactions()
 {
     if (!SetUserIdInViewData())
+    public IActionResult Transactions()
     {
-        return RedirectToAction("Login");
+        Console.WriteLine("Transactions action triggered.");
+        return View("transactions"); // Corresponds to transactions.cshtml
     }
-    var transactions = new List<TransactionModel>
-    {
-        new TransactionModel { Description = "Groceries", Amount = -100, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI="},
-        new TransactionModel { Description = "Electric Bill", Amount = -30, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ="},
-        new TransactionModel { Description = "Money for Electric Bill", Amount = 40, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 750, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Internet Bill", Amount = -75, IsNegative = true, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Groceries", Amount = -90, IsNegative = true,ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 300, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
-        new TransactionModel { Description = "Deposit for Groceries", Amount = 70, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Deposit for Internet Bill", Amount = 50, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
-        new TransactionModel { Description = "Paper Towels and Hand Soap", Amount = -15, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 600, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
-    };
-    return View(transactions); 
-}
 
     public IActionResult Privacy()
     {
         Console.WriteLine("Privacy action triggered.");
-        if (!SetUserIdInViewData())
-        {
-            return RedirectToAction("Login");
-        }
         return View();
     }
     // log out function 
@@ -311,5 +301,28 @@ public IActionResult Transactions()
     {
         Console.WriteLine("Error action triggered.");
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private static byte[] ConvertSecretToBytes(string secret)
+    {
+        return Encoding.UTF8.GetBytes(secret);
+    }
+
+    public ActionResult TwoFactorAuthenticate()
+    {
+     var token = HttpContext.Request.Form["CodeDigit"];
+     TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+     string UserUniqueKey = HttpContext.Session.GetString("UserUniqueKey");
+     bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token, false);
+     if (isValid)
+     {
+         string UserCode = Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(UserUniqueKey), entropy, DataProtectionScope.CurrentUser));
+
+         HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "valid");
+         return RedirectToAction("Dashboard");
+      }
+
+      ViewBag.Message = "Google Two Factor PIN is expired or wrong";
+      return RedirectToAction("Login");
     }
 }
