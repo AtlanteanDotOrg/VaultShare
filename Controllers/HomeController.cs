@@ -226,6 +226,10 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
+        var googleId = HttpContext.Session.GetString("GoogleId");
+        ViewData["GoogleId"] = googleId;
+            var userId = HttpContext.Session.GetString("Id");
+    ViewData["Id"] = googleId;
         return View("vaultSend");
     }
 
