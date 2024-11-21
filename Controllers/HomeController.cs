@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Google.Authenticator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Security.Cryptography;
 
 namespace VaultShare.Controllers;
 
@@ -12,6 +19,7 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly UserService _userService;
+    static byte [] entropy = {5, 6, 1, 3, 9, 8, 4};
 
     public HomeController(ILogger<HomeController> logger, UserService userService)
     {
@@ -54,6 +62,8 @@ public class HomeController : Controller
     public IActionResult Login()
     {
         Console.WriteLine("Login action triggered.");
+        HttpContext.Session.SetString("UserName", "NA");
+        HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "invalid");
         return View("login"); // Corresponds to login.cshtml
     }
 
@@ -61,36 +71,59 @@ public class HomeController : Controller
     public async Task<IActionResult> NoOauthLogin(string email, string password)
     {
         Console.WriteLine("NoOauthLogin action triggered.");
+        bool status = false;
+        var usernameCheck = HttpContext.Session.GetString("UserName");
+        var authCheck = HttpContext.Session.GetString("IsValidTwoFactorAuthentication");
 
         // Fetch the user from the database
         var user = await _userService.GetUserByEmailAsync(email);
 
-        // Check if the user exists and if the password matches
-        if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+        if(usernameCheck.Equals("NA") || authCheck.Equals("invalid"))
         {
-            // Create claims for the authenticated user
-            var claims = new List<Claim>
+            //generate authentication key
+            string UserUniqueKey = (user.Username.ToString() + "2nD07gL1");
+
+            // Check if the user exists and if the password matches
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Id", user.Id.ToString()) // Optional: Custom claim for UserId
-            };
+                HttpContext.Session.SetString("UserName", user.Username.ToString());
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+                //Two Factor Authentication Setup
+                TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+                var setupInfo = TwoFacAuth.GenerateSetupCode("VaultShare", user.Username, ConvertSecretToBytes(UserUniqueKey), 300);
+                HttpContext.Session.SetString("UserUniqueKey", UserUniqueKey);
+                ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+                ViewBag.SetupCode = setupInfo.ManualEntryKey;
+                status = true;
 
-            // Sign in the user using cookies
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                // Create claims for the authenticated user
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim("Id", user.Id.ToString()) // Optional: Custom claim for UserId
+                };
 
-            // Set the user's ID in session
-            HttpContext.Session.SetString("Id", user.Id.ToString());
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
 
-            Console.WriteLine("User successfully logged in and ID stored in session.");
+                // Sign in the user using cookies
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                // Set the user's ID in session
+                HttpContext.Session.SetString("Id", user.Id.ToString());
+
+                Console.WriteLine("User successfully logged in and ID stored in session.");
+            }
+        }
+        else
+        {
             return RedirectToAction("Dashboard");
         }
 
         // If login failed, show an error message
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        ViewBag.Status = status;
         return View("login"); // Return to login view with error
     }
 
@@ -302,7 +335,10 @@ public IActionResult Transactions()
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(); 
+        HttpContext.Session.SetString("UserName", "NA");
+        HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "invalid");
         TempData["LogoutMessage"] = "Successfully logged out!";
+
         return RedirectToAction("Login"); 
     }
 
@@ -311,5 +347,27 @@ public IActionResult Transactions()
     {
         Console.WriteLine("Error action triggered.");
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+    private static byte[] ConvertSecretToBytes(string secret)
+    {
+        return Encoding.UTF8.GetBytes(secret);
+    }
+
+    public ActionResult TwoFactorAuthenticate()
+    {
+     var token = HttpContext.Request.Form["CodeDigit"];
+     TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+     string UserUniqueKey = HttpContext.Session.GetString("UserUniqueKey");
+     bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token, false);
+     if (isValid)
+     {
+         string UserCode = Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(UserUniqueKey), entropy, DataProtectionScope.CurrentUser));
+
+         HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "valid");
+         return RedirectToAction("Dashboard");
+      }
+
+      ViewBag.Message = "Google Two Factor PIN is expired or wrong";
+      return RedirectToAction("Login");
     }
 }
