@@ -84,6 +84,7 @@ public class HomeController : Controller
         {
             //generate authentication key
             string UserUniqueKey = (user.Username.ToString() + "2nD07gL1");
+
             // Check if the user exists and if the password matches
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
@@ -125,6 +126,7 @@ public class HomeController : Controller
         // If login failed, show an error message
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         ViewBag.Status = status;
+        
         // If login failed, show an error message
         TempData["LoginError"] = "Invalid email or password. Please try again.";
         return View("login"); // Return to login view with error
@@ -398,6 +400,7 @@ public class HomeController : Controller
         HttpContext.Session.SetString("UserName", "NA");
         HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "invalid");
         TempData["LogoutMessage"] = "Successfully logged out!";
+
         return RedirectToAction("Login"); 
     }
 
@@ -414,19 +417,19 @@ public class HomeController : Controller
 
     public ActionResult TwoFactorAuthenticate()
     {
-    var token = HttpContext.Request.Form["CodeDigit"];
-    TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
-    string UserUniqueKey = HttpContext.Session.GetString("UserUniqueKey");
-    bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token, false);
-    if (isValid)
-    {
-        string UserCode = Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(UserUniqueKey), entropy, DataProtectionScope.CurrentUser));
+     var token = HttpContext.Request.Form["CodeDigit"];
+     TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+     string UserUniqueKey = HttpContext.Session.GetString("UserUniqueKey");
+     bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token, false);
+     if (isValid)
+     {
+         string UserCode = Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(UserUniqueKey), entropy, DataProtectionScope.CurrentUser));
 
-        HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "valid");
-        return RedirectToAction("Dashboard");
-    }
+         HttpContext.Session.SetString("IsValidTwoFactorAuthentication", "valid");
+         return RedirectToAction("Dashboard");
+      }
 
-    ViewBag.Message = "Google Two Factor PIN is expired or wrong";
-    return RedirectToAction("Login");
+      ViewBag.Message = "Google Two Factor PIN is expired or wrong";
+      return RedirectToAction("Login");
     }
 }

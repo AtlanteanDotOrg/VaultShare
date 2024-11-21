@@ -129,7 +129,6 @@
                 <div class="form-group">
                     <input type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
-                <button type="submit" class="btn btn-purple btn-block">Sign In</button>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                     <div class="forgot-password">
@@ -138,8 +137,8 @@
                 </div>
                 <button type="submit" class="btn btn-purple btn-block">Sign In</button>
             </form>
-
-        <!-- Google Sign-In Button -->
+      
+            <!-- Google Sign-In Button -->
             <button class="gsi-material-button" onclick="location.href='/Home/GoogleLogin'">
                 <div class="gsi-material-button-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
@@ -159,6 +158,18 @@
             <div>@ViewBag.Message</div>
             <div>
                 <img src="@ViewBag.BarcodeImageUrl" width="300" height="300" />
+            </div>
+            <div>
+                Manual Setup Code : @ViewBag.SetupCode
+            </div>
+            <div>
+                @using (Html.BeginForm("TwoFactorAuthenticate", "Home", FormMethod.Post))
+                {
+                    <input type="text" name="CodeDigit" />
+                    <input type="submit" class="btn btn-success" />
+                }
+            </div>
+        }
 
             </div>
             <div>
