@@ -230,7 +230,57 @@ public class HomeController : Controller
     }
 
     public IActionResult Vault(string vaultId)
+{
+    if (!SetUserIdInViewData())
     {
+
+        return RedirectToAction("Login");
+    }
+
+    var googleId = ViewData["GoogleId"].ToString();
+    var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
+    var userVaults = user?.Vaults;
+
+    if (userVaults == null)
+    {
+        _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
+        return RedirectToAction("Dashboard");
+    }
+
+    var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+
+    if (selectedVault == null)
+    {
+        _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
+        return RedirectToAction("Dashboard");
+    }
+
+    // Fetch contributions for the selected vault
+    var contributions = new List<Contribution>
+    {
+        new Contribution { Description = "Money for Electric", Amount = 40.00 },
+        new Contribution { Description = "Deposit for Rent", Amount = 750.00 },
+        new Contribution { Description = "Deposit for Rent", Amount = 300.00 },
+        new Contribution { Description = "Money for Groceries", Amount = 70.00},
+        new Contribution { Description = "Deposit for Internet Bill", Amount = 50.00},
+        new Contribution { Description = "Deposit for Rent", Amount = 600.00},
+    };
+
+    var transactions = new List<Transaction>
+    {
+        new Transaction {Description = "Electric Bill", Amount = -30.00},
+        new Transaction {Description = "Internet Bill", Amount = -75.00},
+        new Transaction {Description = "Groceries", Amount = -90.00},
+        new Transaction {Description = "Paper Towels and Hand Soap", Amount = -15.00}
+    };
+
+    ViewData["SelectedVault"] = selectedVault;
+    ViewData["Contributions"] = contributions;
+    ViewData["Transaction"] = transactions;
+
+    return View("vault");
+}
+
         if (string.IsNullOrEmpty(vaultId))
         {
             _logger.LogWarning("Vault ID is null or empty.");
@@ -310,6 +360,7 @@ public class HomeController : Controller
     }
 
 
+
     public IActionResult Friends()
     {
         if (!SetUserIdInViewData())
@@ -383,6 +434,12 @@ public class HomeController : Controller
         };
         return View(transactions); 
     }
+
+
+
+
+
+
 
     public IActionResult Privacy()
     {
