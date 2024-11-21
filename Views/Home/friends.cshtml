@@ -1,4 +1,3 @@
-@model VaultShare.Models.User
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +6,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #F8C471; 
+            background-color: #F8C471;
         }
-
         .friends-page {
             display: flex;
             justify-content: center;
@@ -18,32 +16,28 @@
         }
         .flex-container {
             display: flex;
-            justify-content: center; 
-            gap: 50px; 
+            justify-content: center;
+            gap: 50px;
             height: 600px;
-            width: 100%; 
+            width: 100%;
             max-width: 1500px;
             position: relative;
         }
-
         .friends-box1, .friends-box2 {
-            flex: 1; 
-            padding: 20px; 
-            border: 1px solid #ccc; 
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: white; 
+            background-color: white;
         }
-
         .friends-box1 {
             flex-grow: 5;
             width: 300px;
         }
-
         .friends-box2 {
-            flex-grow: 5; 
-            width: 300px;
+            flex-grow: 3;
+            width: 400px;
         }
-
         .search-bar {
             display: flex;
             align-items: center;
@@ -53,79 +47,52 @@
             background-color: #A9A9A9;
             margin-bottom: 10px;
         }
-
         .search-bar input {
             flex: 1;
             border: none;
             padding: 10px;
             background-color: #A9A9A9;
         }
-
         .search-bar button {
             margin-left: 5px;
             border: none;
             background-color: #A9A9A9;
         }
-
         .friends-grid {
             display: flex;
-            flex-wrap: wrap; 
+            flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            width: 100%; 
+            width: 100%;
         }
-
-        .search-friends { 
+        .search-friends {
             width: 200px;
-            height: 150px; 
+            height: 150px;
             display: flex;
-            flex-direction: column; 
-            justify-content: center; 
-            background-color: #F0F0F0; 
-            color: white; 
+            flex-direction: column;
+            justify-content: center;
+            background-color: #F0F0F0;
+            color: black;
             border-radius: 8px;
-            font-size: 16px; 
+            font-size: 16px;
             padding: 10px;
             align-items: center;
         }
-
         .search-friends p {
             margin: 0;
             color: black;
         }
-
-        .show-friends {
-            width: 200px;
-            height: 150px; 
-            display: flex;
-            flex-direction: column; 
-            justify-content: center; 
-            background-color: #F0F0F0; 
-            color: white; 
-            border-radius: 8px;
-            font-size: 16px; 
-            padding: 10px;
-            align-items: center;
-        }
-
-        .show-friends p {
-            margin: 0;
-            color: black;
-        }
-
         .profile-pic {
-            width: 40px; 
-            height: 40px; 
-            object-fit: cover; 
-        }
-
-        .profile-pic img {
-            width: 100%; 
-            height: 100%;
-            border-radius: 50%; 
+            width: 40px;
+            height: 40px;
             object-fit: cover;
         }
-
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
         .add-button {
             background-color: #6C3483;
             color: white;
@@ -135,39 +102,8 @@
             cursor: pointer;
             margin-top: 5px;
         }
-
         .add-button:hover {
-            background-color: #5A2D71; 
-        }
-
-        .success-message {
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #d4edda; /* Green background */
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        
-        .failure-message {
-            position: fixed;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ae9596; /* Green background */
-            border: 1px solid #ae9596;
-            color: #a1282c;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            background-color: #5A2D71;
         }
     </style>
 </head>
@@ -177,315 +113,114 @@
         <div class="friends-box1">
             <div class="friends-section">
                 <h5>Friends</h5>
-                <div class="friends-grid-2" id="friends-grid-2">
-                    <!-- Potential friends will be dynamically loaded here -->
+                <div class="card-container" id="friends-box1">
+                    <!-- Friends will be dynamically added here -->
                 </div>
             </div>
         </div>
         <div class="friends-box2">
             <div class="mb-3">
                 <h5>Find Friends</h5>
-                <div class="search-bar">
-                    <input type="text" id="friend-search" class="form-control" placeholder="Search for a friend">
-                    <button id="search-button">&#128269;</button>
-                </div>
                 <div class="friends-grid" id="friends-grid">
                     <!-- Potential friends will be dynamically loaded here -->
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const googleId = "@ViewData["GoogleId"]";
-            const id = "@ViewData["Id"]";
-
-            if (googleId.length == 0 && id.length >= 1) {
-                console.log("Page loaded - ID:", id);
-            } else {
-                console.log("Page loaded - Google ID:", googleId);
-            }
-
-            if (googleId) {
-                fetchPotentialFriends(googleId);
-            } else if (id) {
-                fetchPotentialRegFriends(id);
-            } else {
-                console.error("Google ID  or ID is not available on the page.");
-            }
-
-            async function fetchPotentialFriends(googleId) {
-                try {
-                    console.log("Fetching potential friends for Google ID:", googleId);
-                    const response = await fetch(`/api/payment/potential-friends/${googleId}`);
-                    console.log("Fetch response status:", response.status);
-                    
-                    if (response.ok) {
-                        const potentialFriends = await response.json();
-                        console.log("Potential friends data received:", potentialFriends);
-                        displayPotentialFriends(potentialFriends);
-                    } else {
-                        console.error("Failed to fetch potential friends. Status:", response.status);
-                    }
-                } catch (error) {
-                    console.error("Error fetching potential friends:", error);
-                }
-            }
-
-            async function fetchPotentialRegFriends(id) {
-                try {
-                    console.log("Fetching potential friends for ID:", id);
-                    const response = await fetch(`/api/payment/potential-friends-reg/${id}`);
-                    console.log("Fetch response status:", response.status);
-                    
-                    if (response.ok) {
-                        const potentialFriends = await response.json();
-                        console.log("Potential friends data received:", potentialFriends);
-                        displayPotentialFriendsReg(potentialFriends);
-                    } else {
-                        console.error("Failed to fetch potential friends. Status:", response.status);
-                    }
-                } catch (error) {
-                    console.error("Error fetching potential friends:", error);
-                }
-            }
-
-            function displayPotentialFriends(friends) {
-                const friendsGrid = document.getElementById("friends-grid");
-                friendsGrid.innerHTML = ""; // Clear any existing entries
-                console.log("Displaying potential friends...");
-
-                friends.forEach(friend => {
-                    console.log("Rendering friend:", friend.name, "ID:", friend.id);
-
-                    const friendDiv = document.createElement("div");
-                    friendDiv.classList.add("search-friends");
-
-                    friendDiv.innerHTML = `
-                        <div class="profile-pic">
-                            <img src="https://via.placeholder.com/40" alt="Profile Picture">
-                        </div>
-                        <p>${friend.name}</p>
-                        <p style="color: #787878; font-size: 12px;">#${friend.username}</p>
-                        <p style="color: #787878; font-size: 12px;">${friend.email}</p>
-                        <button class="add-button" onclick="addFriend('${friend.id}')">Add</button>
-                    `;
-
-                    friendsGrid.appendChild(friendDiv);
-                });
-            }
-
-            function displayPotentialFriendsReg(friends) {
-                const friendsGrid = document.getElementById("friends-grid");
-                friendsGrid.innerHTML = ""; // Clear any existing entries
-                console.log("Displaying potential friends...");
-
-                friends.forEach(friend => {
-                    console.log("Rendering friend:", friend.name, "ID:", friend.id);
-
-                    const friendDiv = document.createElement("div");
-                    friendDiv.classList.add("search-friends");
-
-                    friendDiv.innerHTML = `
-                        <div class="profile-pic">
-                            <img src="https://via.placeholder.com/40" alt="Profile Picture">
-                        </div>
-                        <p>${friend.name}</p>
-                        <p style="color: #787878; font-size: 12px;">#${friend.username}</p>
-                        <p style="color: #787878; font-size: 12px;">${friend.email}</p>
-                        <button class="add-button" onclick="addFriendReg('${friend.id}')">Add</button>
-                    `;
-
-                    friendsGrid.appendChild(friendDiv);
-                });
-            }
-        });
-
-        // Implementing the addFriend function
-        async function addFriend(friendId) {
-            console.log("Adding friend with ID:", friendId);
-            
-            try {
-                const response = await fetch(`/api/payment/add-friend`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ friendId })
-                });
-
-                if (response.ok) {
-                    console.log("Friend added successfully!");
-                    showSuccessMessage("Friend added successfully!");
-                    fetchPotentialFriends("@ViewData["Id"]");
-                } else {
-                    console.error("Failed to add friend. Status:", response.status);
-                    showFailureMessage("Failed to add friend.");
-                }
-            } catch (error) {
-                console.error("Error adding friend:", error);
-            }
-        }
-
-        // Implementing the addFriend function for regular Id
-        async function addFriendReg(friendId) {
-            console.log("Adding friend with ID:", friendId);
-            
-            try {
-                const response = await fetch(`/api/payment/add-friend-reg`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ friendId })
-                });
-
-                if (response.ok) {
-                    console.log("Friend added successfully!");
-                    showSuccessMessage("Friend added successfully!");
-                    fetchPotentialFriendsReg("@ViewData["Id"]");
-                } else {
-                    console.error("Failed to add friend. Status:", response.status);
-                    showFailureMessage("Failed to add friend.");
-                }
-            } catch (error) {
-                console.error("Error adding friend:", error);
-            }
-        }
-
-        function showSuccessMessage(message) {
-            const successMessageDiv = document.createElement("div");
-            successMessageDiv.className = "success-message";
-            successMessageDiv.textContent = message;
-
-            // Append the message to the body (or any container)
-            document.body.appendChild(successMessageDiv);
-
-            // Automatically hide the message after 3 seconds
-            setTimeout(() => {
-                successMessageDiv.remove();
-            }, 3000);
-        }
-
-        function showFailureMessage(message) {
-            const failureMessageDiv = document.createElement("div");
-            failureMessageDiv.className = "failure-message";
-            failureMessageDiv.textContent = message;
-
-            // Append the message to the body (or any container)
-            document.body.appendChild(failureMessageDiv);
-
-            // Automatically hide the message after 3 seconds
-            setTimeout(() => {
-                failureMessageDiv.remove();
-            }, 3000);
-        }
-
-        // Was meant for displaying added friends. Will show proof in terminal but not on site.
-        document.addEventListener("DOMContentLoaded", function() {
-            const googleId = "@ViewData["GoogleId"]";
-            const id = "@ViewData["Id"]";
-
-            if (googleId.length == 0 && id.length >= 1) {
-                console.log("Page loaded - ID:", id);
-            } else {
-                console.log("Page loaded - Google ID:", googleId);
-            }
-
-            if (googleId) {
-                fetchFriends(googleId);
-            } else if (id) {
-                fetchFriendsReg(id);
-            } else {
-                console.error("Google ID  or ID is not available on the page.");
-            }
-
-            async function fetchFriends(googleId) {
-                try {
-                    console.log("Fetching  friends for GoogleID:", googleId);
-                    const response = await fetch(`/api/payment/friends/${googleId}`);
-                    console.log("Fetch response status:", response.status);
-                    
-                    if (response.ok) {
-                        const friends = await response.json();
-                        console.log("Friends data received:", friends);
-                        displayFriends(friends);
-                    } else {
-                        console.error("Failed to fetch friends. Status:", response.status);
-                    }
-                } catch (error) {
-                    console.error("Error fetching friends:", error);
-                }
-            }
-
-            async function fetchFriendsReg(id) {
-                try {
-                    console.log("Fetching  friends for ID:", id);
-                    const response = await fetch(`/api/payment/friends-reg/${id}`);
-                    console.log("Fetch response status:", response.status);
-                    
-                    if (response.ok) {
-                        const friends = await response.json();
-                        console.log("Friends data received:", friends);
-                        displayFriendsReg(friends);
-                    } else {
-                        console.error("Failed to fetch friends. Status:", response.status);
-                    }
-                } catch (error) {
-                    console.error("Error fetching friends:", error);
-                }
-            }
-
-            function displayFriends(friends) {
-                const friendsGrid = document.getElementById("friends-grid-2");
-                console.log("Displaying friends...");
-
-                if (friends.length === 0) {
-                    friendsGrid.innerHTML = "<p>You have no friends yet.</p>";
-                    return;
-                }
-
-                // Loop through each friend and render them in the grid
-                friends.forEach(friend => {
-                    console.log("Rendering friend:", friend.name, "ID:", friend.id);
-
-                    const friendDiv = document.createElement("div");
-                    friendDiv.classList.add("show-friends");
-
-                    friendDiv.innerHTML = `
-                        <div class="profile-pic">
-                            <img src="https://via.placeholder.com/40" alt="Profile Picture">
-                        </div>
-                        <p>${friend.name}</p>
-                        <p style="color: #787878; font-size: 12px;">#${friend.email}</p>
-                    `;
-                });
-            }
-
-            function displayFriendsReg(friends) {
-                const friendsGrid = document.getElementById("friends-grid-2");
-                console.log("Displaying friends...");
-
-                if (friends.length === 0) {
-                    friendsGrid.innerHTML = "<p>You have no friends yet.</p>";
-                    return;
-                }
-
-                // Loop through each friend and render them in the grid
-                friends.forEach(friend => {
-                    console.log("Rendering friend:", friend.name, "ID:", friend.id);
-
-                    const friendDiv = document.createElement("div");
-                    friendDiv.classList.add("show-friends");
-
-                    friendDiv.innerHTML = `
-                        <div class="profile-pic">
-                            <img src="https://via.placeholder.com/40" alt="Profile Picture">
-                        </div>
-                        <p>${friend.name}</p>
-                        <p style="color: #787878; font-size: 12px;">#${friend.email}</p>
-                    `;
-                });
-            }
-        });
-    </script>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const googleId = "@ViewData["GoogleId"]";
+    console.log("Page loaded - Google ID:", googleId);
+
+    if (googleId) {
+        fetchPotentialFriends(googleId);
+    } else {
+        console.error("Google ID is not available on the page.");
+    }
+
+    async function fetchPotentialFriends(googleId) {
+        try {
+            console.log("Fetching potential friends for Google ID:", googleId);
+            const response = await fetch(`/api/payment/potential-friends/${googleId}`);
+            console.log("Fetch response status:", response.status);
+            
+            if (response.ok) {
+                const potentialFriends = await response.json();
+                console.log("Potential friends data received:", potentialFriends);
+                displayPotentialFriends(potentialFriends);
+            } else {
+                console.error("Failed to fetch potential friends. Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching potential friends:", error);
+        }
+    }
+
+    window.displayPotentialFriends = function(friends) {
+        const friendsGrid = document.getElementById("friends-grid");
+        friendsGrid.innerHTML = ""; // Clear any existing entries
+        console.log("Displaying potential friends...");
+
+        friends.forEach(friend => {
+            console.log("Rendering friend:", friend.name, "ID:", friend.id);
+
+            const friendDiv = document.createElement("div");
+            friendDiv.classList.add("search-friends");
+
+            friendDiv.innerHTML = `
+                <div class="profile-pic">
+                    <img src="https://sm.ign.com/ign_il/cover/k/kirby-for-/kirby-for-nintendo-switch_kxmv.jpg" alt="Profile Picture">
+                </div>
+                <p>${friend.name}</p>
+                <p style="color: black; font-size: 12px;">#${friend.email}</p>
+                <button class="add-button" onclick="handleAddFriend('${friend.id}', '${friend.name}', '${friend.username}', '${friend.email}')">Add</button>
+            `;
+
+            friendsGrid.appendChild(friendDiv);
+        });
+    }
+
+    window.handleAddFriend = async function(friendId, name, username, email) {
+        console.log("Handling add friend for ID:", friendId);
+
+        try {
+            const response = await fetch(`/api/payment/add-friend`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ friendId })
+            });
+
+            if (response.ok) {
+                console.log("Friend added successfully!");
+                alert("Friend added successfully!"); // Popup for success
+
+                // Add the friend to friends-box1
+                const friendCard = document.createElement("div");
+                friendCard.classList.add("search-friends");
+
+                friendCard.innerHTML = `
+                    <div class="profile-pic">
+                        <img src="https://sm.ign.com/ign_il/cover/k/kirby-for-/kirby-for-nintendo-switch_kxmv.jpg" alt="${name}">
+                    </div>
+                    <p>${name}</p>
+                    <p style="color: #787878; font-size: 12px;">${username}</p>
+                    <small style="color: black;">#${email}</small>
+                `;
+
+                const friendsBox1 = document.getElementById("friends-box1");
+                friendsBox1.appendChild(friendCard);
+            } else {
+                console.error("Failed to add friend. Status:", response.status);
+                alert("Failed to add friend. Please try again."); 
+            }
+        } catch (error) {
+            console.error("Error adding friend:", error);
+            alert("An error occurred while adding the friend. Please try again.");
+        }
+    }
+});
+</script>
 </body>
 </html>

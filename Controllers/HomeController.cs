@@ -281,94 +281,97 @@ public class HomeController : Controller
     return View("vault");
 }
 
-        if (string.IsNullOrEmpty(vaultId))
-        {
-            _logger.LogWarning("Vault ID is null or empty.");
-            return RedirectToAction("Dashboard");
-        }
+    //     if (string.IsNullOrEmpty(vaultId))
+    //     {
+    //         _logger.LogWarning("Vault ID is null or empty.");
+    //         return RedirectToAction("Dashboard");
+    //     }
 
-        if (!SetUserIdInViewData())
-        {
-            return RedirectToAction("Login");
-        }
+    //     if (!SetUserIdInViewData())
+    //     {
+    //         return RedirectToAction("Login");
+    //     }
 
-        var googleId = ViewData["GoogleId"]?.ToString();
-        var id = ViewData["Id"]?.ToString();
+    //     var googleId = ViewData["GoogleId"]?.ToString();
+    //     var id = ViewData["Id"]?.ToString();
 
-        if (!string.IsNullOrEmpty(googleId))
-        {
-            var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
+    //     if (!string.IsNullOrEmpty(googleId))
+    //     {
+    //         var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
 
-            if (user == null)
-            {
-                _logger.LogWarning($"User with GoogleId: {googleId} not found.");
-                return RedirectToAction("Dashboard");
-            }
+    //         if (user == null)
+    //         {
+    //             _logger.LogWarning($"User with GoogleId: {googleId} not found.");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            var userVaults = user.Vaults;
-            if (userVaults == null || !userVaults.Any())
-            {
-                _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
-                return RedirectToAction("Dashboard");
-            }
+    //         var userVaults = user.Vaults;
+    //         if (userVaults == null || !userVaults.Any())
+    //         {
+    //             _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+    //         var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
 
-            if (selectedVault == null)
-            {
-                _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
-                return RedirectToAction("Dashboard");
-            }
+    //         if (selectedVault == null)
+    //         {
+    //             _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            ViewData["SelectedVault"] = selectedVault;
-            return View("vault");
-        }
-        else
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                _logger.LogWarning("User ID is null or empty in ViewData.");
-                return RedirectToAction("Dashboard");
-            }
+    //         ViewData["SelectedVault"] = selectedVault;
+    //         return View("vault");
+    //     }
+    //     else
+    //     {
+    //         if (string.IsNullOrEmpty(id))
+    //         {
+    //             _logger.LogWarning("User ID is null or empty in ViewData.");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            var user = _userService.GetUserByIdAsync(id).Result;
+    //         var user = _userService.GetUserByIdAsync(id).Result;
 
-            if (user == null)
-            {
-                _logger.LogWarning($"User with Id: {id} not found.");
-                return RedirectToAction("Dashboard");
-            }
+    //         if (user == null)
+    //         {
+    //             _logger.LogWarning($"User with Id: {id} not found.");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            var userVaults = user.Vaults;
-            if (userVaults == null || !userVaults.Any())
-            {
-                _logger.LogWarning($"No vaults found for user with Id: {id}");
-                return RedirectToAction("Dashboard");
-            }
+    //         var userVaults = user.Vaults;
+    //         if (userVaults == null || !userVaults.Any())
+    //         {
+    //             _logger.LogWarning($"No vaults found for user with Id: {id}");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+    //         var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
 
-            if (selectedVault == null)
-            {
-                _logger.LogWarning($"Vault with Id: {vaultId} not found for user with Id: {id}");
-                return RedirectToAction("Dashboard");
-            }
+    //         if (selectedVault == null)
+    //         {
+    //             _logger.LogWarning($"Vault with Id: {vaultId} not found for user with Id: {id}");
+    //             return RedirectToAction("Dashboard");
+    //         }
 
-            ViewData["SelectedVault"] = selectedVault;
-            return View("vault");
-        }
-    }
+    //         ViewData["SelectedVault"] = selectedVault;
+    //         return View("vault");
+    //     }
+    // }
 
 
 
     public IActionResult Friends()
     {
+        var googleId = HttpContext.Session.GetString("GoogleId");
         if (!SetUserIdInViewData())
         {
             return RedirectToAction("Login");
         }
         return View();
     }
+
+
 
     public IActionResult Settings()
     {
