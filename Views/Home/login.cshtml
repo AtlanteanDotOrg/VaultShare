@@ -170,19 +170,6 @@
                 }
             </div>
         }
-
-            </div>
-            <div>
-                Manual Setup Code : @ViewBag.SetupCode
-            </div>
-            <div>
-                @using (Html.BeginForm("TwoFactorAuthenticate", "Home", FormMethod.Post))
-                {
-                    <input type="text" name="CodeDigit" />
-                    <input type="submit" class="btn btn-success" />
-                }
-            </div>
-        }
             <a href="@Url.Action("Register", "Home")" class="btn btn-purple mt-3">Register</a>
         </div>
     </div>
