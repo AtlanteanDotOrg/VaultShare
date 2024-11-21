@@ -229,24 +229,7 @@
                 <div class="dashboard-card">
                     <h5 class="card-title">Contributions</h5>
                     <ul class="list-unstyled text-left">
-                    @if (ViewData["Contributions"] is List<Contribution> contributions)
-                    {
-                        foreach (var contribution in contributions)
-                        {
-                            <div class="contribution-row">
-                                <div class="description">@contribution.Description</div>
-                                <div class="amount @(contribution.Amount >= 0 ? "amount-positive" : "amount-negative")">
-                                    @(contribution.Amount < 0 ? "-" : "") $@Math.Abs(contribution.Amount)
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="contribution-row">
-                            <div class="description" colspan="2">No contributions available.</div>
-                        </div>
-                    }
+                    
                     </ul>
                     <a href="@Url.Action("transactions", "Home")">
                         <button class="btn btn-primary view-more-btn2">View More</button>
