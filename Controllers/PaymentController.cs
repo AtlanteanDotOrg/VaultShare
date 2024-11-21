@@ -311,10 +311,10 @@ public async Task<IActionResult> GetPotentialFriends(string googleId)
 
             return BadRequest("Unexpected error occurred.");
         } else {
-            Console.WriteLine($"[SendPayment] Received payment request: Id={request.Id}, RecipientId={request.RecipientId}, Amount={request.Amount}");
+            Console.WriteLine($"[SendPayment] Received payment request: Id={request.GoogleId}, RecipientId={request.RecipientId}, Amount={request.Amount}");
 
             // Retrieve sender (user) based on Id
-            var user = await _userService.GetUserByIdAsync(request.Id);
+            var user = await _userService.GetUserByIdAsync(request.GoogleId);
             if (user == null)
             {
                 Console.WriteLine("[SendPayment] Sender not found.");
@@ -436,11 +436,11 @@ public async Task<IActionResult> GetPotentialFriends(string googleId)
 
 public class PaymentRequest
 {
-    public string GoogleId { get; set; } // The ID of the logged-in user (sender)
-    public string Id { get; set; }
-    public string RecipientId { get; set; } // Either a user or vault ID
-    public decimal Amount { get; set; }
+    public string GoogleId { get; set; } // Optional Google ID
+    public string RecipientId { get; set; }
+    public int Amount { get; set; }
 }
+
 
 
 public class FriendRequest
