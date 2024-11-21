@@ -55,6 +55,7 @@ public class HomeController : Controller
     public IActionResult GoogleLogin()
     {
         Console.WriteLine("GoogleLogin action triggered.");
+        HttpContext.Session.SetString("LoginSuccess", "true");
         return Challenge(new AuthenticationProperties { RedirectUri = "/Home/Dashboard" }, GoogleDefaults.AuthenticationScheme);
     }
 
@@ -78,6 +79,7 @@ public class HomeController : Controller
         // Fetch the user from the database
         var user = await _userService.GetUserByEmailAsync(email);
 
+        // Check if the user exists and if the password matches
         if(usernameCheck.Equals("NA") || authCheck.Equals("invalid"))
         {
             //generate authentication key
@@ -124,9 +126,11 @@ public class HomeController : Controller
         // If login failed, show an error message
         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         ViewBag.Status = status;
+        
+        // If login failed, show an error message
+        TempData["LoginError"] = "Invalid email or password. Please try again.";
         return View("login"); // Return to login view with error
     }
-
 
     public IActionResult Register()
     {
@@ -196,6 +200,13 @@ public class HomeController : Controller
         // Pass the activities list to the View
         ViewData["Activities"] = activities;
 
+        // Check for login success
+        if (HttpContext.Session.GetString("LoginSuccess") == "true")
+        {
+            ViewData["ShowSuccessAlert"] = true;
+            HttpContext.Session.Remove("LoginSuccess"); // Clear after use
+        }
+
         return View("dashboard");
     }
 
@@ -222,6 +233,7 @@ public class HomeController : Controller
 {
     if (!SetUserIdInViewData())
     {
+
         return RedirectToAction("Login");
     }
 
@@ -268,6 +280,86 @@ public class HomeController : Controller
 
     return View("vault");
 }
+
+        if (string.IsNullOrEmpty(vaultId))
+        {
+            _logger.LogWarning("Vault ID is null or empty.");
+            return RedirectToAction("Dashboard");
+        }
+
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
+
+        var googleId = ViewData["GoogleId"]?.ToString();
+        var id = ViewData["Id"]?.ToString();
+
+        if (!string.IsNullOrEmpty(googleId))
+        {
+            var user = _userService.GetUserByGoogleIdAsync(googleId).Result;
+
+            if (user == null)
+            {
+                _logger.LogWarning($"User with GoogleId: {googleId} not found.");
+                return RedirectToAction("Dashboard");
+            }
+
+            var userVaults = user.Vaults;
+            if (userVaults == null || !userVaults.Any())
+            {
+                _logger.LogWarning($"No vaults found for user with GoogleId: {googleId}");
+                return RedirectToAction("Dashboard");
+            }
+
+            var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+
+            if (selectedVault == null)
+            {
+                _logger.LogWarning($"Vault with Id: {vaultId} not found for user with GoogleId: {googleId}");
+                return RedirectToAction("Dashboard");
+            }
+
+            ViewData["SelectedVault"] = selectedVault;
+            return View("vault");
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                _logger.LogWarning("User ID is null or empty in ViewData.");
+                return RedirectToAction("Dashboard");
+            }
+
+            var user = _userService.GetUserByIdAsync(id).Result;
+
+            if (user == null)
+            {
+                _logger.LogWarning($"User with Id: {id} not found.");
+                return RedirectToAction("Dashboard");
+            }
+
+            var userVaults = user.Vaults;
+            if (userVaults == null || !userVaults.Any())
+            {
+                _logger.LogWarning($"No vaults found for user with Id: {id}");
+                return RedirectToAction("Dashboard");
+            }
+
+            var selectedVault = userVaults.FirstOrDefault(v => v.VaultId == vaultId);
+
+            if (selectedVault == null)
+            {
+                _logger.LogWarning($"Vault with Id: {vaultId} not found for user with Id: {id}");
+                return RedirectToAction("Dashboard");
+            }
+
+            ViewData["SelectedVault"] = selectedVault;
+            return View("vault");
+        }
+    }
+
+
 
     public IActionResult Friends()
     {
@@ -320,29 +412,28 @@ public class HomeController : Controller
         return View("settings");
     }
 
-
-public IActionResult Transactions()
-{
-    if (!SetUserIdInViewData())
+    public IActionResult Transactions()
     {
-        return RedirectToAction("Login");
+        if (!SetUserIdInViewData())
+        {
+            return RedirectToAction("Login");
+        }
+        var transactions = new List<TransactionModel>
+        {
+            new TransactionModel { Description = "Groceries", Amount = -100, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI="},
+            new TransactionModel { Description = "Electric Bill", Amount = -30, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ="},
+            new TransactionModel { Description = "Money for Electric Bill", Amount = 40, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
+            new TransactionModel { Description = "Deposit for Rent", Amount = 750, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
+            new TransactionModel { Description = "Internet Bill", Amount = -75, IsNegative = true, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
+            new TransactionModel { Description = "Groceries", Amount = -90, IsNegative = true,ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
+            new TransactionModel { Description = "Deposit for Rent", Amount = 300, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
+            new TransactionModel { Description = "Deposit for Groceries", Amount = 70, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
+            new TransactionModel { Description = "Deposit for Internet Bill", Amount = 50, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
+            new TransactionModel { Description = "Paper Towels and Hand Soap", Amount = -15, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
+            new TransactionModel { Description = "Deposit for Rent", Amount = 600, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
+        };
+        return View(transactions); 
     }
-    var transactions = new List<TransactionModel>
-    {
-        new TransactionModel { Description = "Groceries", Amount = -100, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI="},
-        new TransactionModel { Description = "Electric Bill", Amount = -30, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ="},
-        new TransactionModel { Description = "Money for Electric Bill", Amount = 40, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 750, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Internet Bill", Amount = -75, IsNegative = true, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Groceries", Amount = -90, IsNegative = true,ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 300, IsNegative = false, ImageUrl = "https://media.istockphoto.com/id/1171319990/photo/beautiful-girl-taking-photos-with-retro-camera.jpg?s=612x612&w=0&k=20&c=vgt1M5BsYn5SEhBORdRASif1Yeq5yM6-0x55YRU4qrQ=" },
-        new TransactionModel { Description = "Deposit for Groceries", Amount = 70, IsNegative = false, ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/049/209/831/small_2x/young-woman-smiling-with-natural-beauty-against-a-plain-background-in-a-bright-and-cheerful-setting-png.png" },
-        new TransactionModel { Description = "Deposit for Internet Bill", Amount = 50, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
-        new TransactionModel { Description = "Paper Towels and Hand Soap", Amount = -15, IsNegative = true, ImageUrl = "https://media.istockphoto.com/id/1399395748/photo/cheerful-business-woman-with-glasses-posing-with-her-hands-under-her-face-showing-her-smile.jpg?s=612x612&w=0&k=20&c=EbnuxLE-RJP9a08h2zjfgKUSFqmjGubk0p6zwJHnbrI=" },
-        new TransactionModel { Description = "Deposit for Rent", Amount = 600, IsNegative = false, ImageUrl = "https://st.depositphotos.com/2024219/52075/i/450/depositphotos_520758138-stock-photo-african-american-handsome-man-isolated.jpg" },
-    };
-    return View(transactions); 
-}
 
 
 

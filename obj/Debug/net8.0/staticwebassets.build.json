@@ -1,0 +1,50 @@
+{
+  "Version": 1,
+  "Hash": "L+n+3vnPq3lcgabOuJrlq3a112ykbI+TS9oVtjd+NzY=",
+  "Source": "VaultShare",
+  "BasePath": "_content/VaultShare",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [
+    {
+      "Identity": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/VaultShare.styles.css",
+      "SourceId": "VaultShare",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/",
+      "BasePath": "_content/VaultShare",
+      "RelativePath": "VaultShare.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/bundle/VaultShare.styles.css"
+    },
+    {
+      "Identity": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/VaultShare.bundle.scp.css",
+      "SourceId": "VaultShare",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/",
+      "BasePath": "_content/VaultShare",
+      "RelativePath": "VaultShare.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/scopedcss/projectbundle/VaultShare.bundle.scp.css"
+    }
+  ]
+}

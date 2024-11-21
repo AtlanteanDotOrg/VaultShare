@@ -95,12 +95,42 @@ public class UserService
         return user.Vaults ?? new List<Vault>();
     }
 
-    public async Task<List<User>> GetAllUsersExceptAsync(string googleId)
+public async Task<List<User>> GetAllUsersExceptAsync(string googleId)
+{
+    try
     {
-        _logger.LogInformation("Retrieving all users except for GoogleId: {GoogleId}", googleId);
+        _logger.LogInformation("[GetAllUsersExceptAsync] Retrieving all users except for GoogleId: {GoogleId}", googleId);
+
+        // Validate the GoogleId parameter
+        if (string.IsNullOrWhiteSpace(googleId))
+        {
+            _logger.LogWarning("[GetAllUsersExceptAsync] Provided GoogleId is null or empty.");
+            return new List<User>(); // Return an empty list if GoogleId is invalid
+        }
+
+        // Build the filter to exclude the provided GoogleId
         var filter = Builders<User>.Filter.Ne(u => u.GoogleId, googleId);
+
+        // Execute the query
+        _logger.LogInformation("[GetAllUsersExceptAsync] Querying the database...");
         var users = await _users.Find(filter).ToListAsync();
-        _logger.LogInformation("Retrieved {Count} potential friends for GoogleId: {GoogleId}", users.Count, googleId);
+
+        _logger.LogInformation("[GetAllUsersExceptAsync] Retrieved {Count} potential friends for GoogleId: {GoogleId}", users.Count, googleId);
+        return users;
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "[GetAllUsersExceptAsync] Error occurred while retrieving potential friends for GoogleId: {GoogleId}", googleId);
+        throw; // Re-throw the exception to propagate it to the calling code
+    }
+}
+
+    public async Task<List<User>> GetAllUsersExceptRegAsync(string id)
+    {
+        _logger.LogInformation("Retrieving all users except for GoogleId: {GoogleId}", id);
+        var filter = Builders<User>.Filter.Ne(u => u.Id, id);
+        var users = await _users.Find(filter).ToListAsync();
+        _logger.LogInformation("Retrieved {Count} potential friends for GoogleId: {GoogleId}", users.Count, id);
         return users;
     }
 

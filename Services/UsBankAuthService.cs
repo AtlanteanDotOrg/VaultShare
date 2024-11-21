@@ -10,8 +10,8 @@ using System.Text.Json.Serialization;
 
 public class USAuthService
 {
-    private const string ApiKey = "qOztROJZpvqHBCjuPDAA5hl8lPuTMWGq";
-    private const string ApiSecret = "oly4Y2DXGsWJgjaP";
+    private const string ApiKey = "21gSeTkt1swufbPSbnbUVErrfqcVrv0K";
+    private const string ApiSecret = "JadPh6GIyQkMAayZ";
     private const string AuthEndpoint = "https://sandbox.usbank.com/auth/oauth2/v1/token";
 
     public async Task<string> GetAccessTokenAsync()

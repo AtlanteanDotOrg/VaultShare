@@ -35,8 +35,8 @@ public class ProfileController : ControllerBase
 
         await _userService.CreateUserAsync(user); // Use UserService to create user
 
-        // Redirect to the Login action in the HomeController after successful account creation
-        return RedirectToAction("Login", "Home");
+        // Redirect with a query parameter for the success message
+        return RedirectToAction("Login", "Home", new { message = "Your account has been successfully created. Please log in." });
     }
 
     // Hash the password using BCrypt
@@ -45,40 +45,87 @@ public class ProfileController : ControllerBase
         return BCrypt.Net.BCrypt.HashPassword(password);
     }
 
-    private string GetGoogleIdFromSession()
+    private string GetIdFromSession()
     {
         var googleId = HttpContext.Session.GetString("GoogleId");
-        
-        // Fallback if Google ID is missing in session
-        if (string.IsNullOrEmpty(googleId))
-        {
-            Console.WriteLine("Google ID is missing from session. Using fallback Google ID.");
-            googleId = "test_google_id"; // Replace with a default or test Google ID for debugging
-        }
+        var id = HttpContext.Session.GetString("Id");
 
-        return googleId;
+        // Prefer GoogleId if available, otherwise fallback to Id
+        if (!string.IsNullOrEmpty(googleId))
+        {
+            return googleId;
+        }
+        else if (!string.IsNullOrEmpty(id))
+        {
+            return id;
+        }
+        else
+        {
+            // Handle the case where both IDs are missing, depending on your application flow
+            return null;
+        }
     }
 
     [HttpPut("username")]
     public async Task<IActionResult> UpdateUsername([FromBody] ProfileUpdateRequest request)
     {
-        var googleId = GetGoogleIdFromSession();
-        var user = await _userService.GetUserByGoogleIdAsync(googleId);
-        
-        if (user == null)
-            return BadRequest("User not found.");
+        // Get the user identifier from session (either GoogleId or Id)
+        var userId = GetIdFromSession();
 
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("User is not authenticated.");
+        }
+
+        // Attempt to get the user based on GoogleId or Id
+        User user = null;
+        if (userId == HttpContext.Session.GetString("GoogleId")) // If the user is logged in via Google
+        {
+            user = await _userService.GetUserByGoogleIdAsync(userId);
+        }
+        else // If the user is logged in via local login (Id)
+        {
+            user = await _userService.GetUserByIdAsync(userId);
+        }
+
+        // If no user is found, return a bad request
+        if (user == null)
+        {
+            return BadRequest("User not found.");
+        }
+
+        // Update the username
         user.Name = request.Value;
+
+        // Update the user in the database
         await _userService.UpdateUserAsync(user);
-        return Ok();
+
+        return Ok("Username updated successfully.");
     }
+
 
     [HttpPut("bio")]
     public async Task<IActionResult> UpdateBio([FromBody] ProfileUpdateRequest request)
     {
-        var googleId = GetGoogleIdFromSession();
-        var user = await _userService.GetUserByGoogleIdAsync(googleId);
-        
+        // Get the user identifier from session (either GoogleId or Id)
+        var userId = GetIdFromSession();
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("User is not authenticated.");
+        }
+
+        // Attempt to get the user based on GoogleId or Id
+        User user = null;
+        if (userId == HttpContext.Session.GetString("GoogleId")) // If the user is logged in via Google
+        {
+            user = await _userService.GetUserByGoogleIdAsync(userId);
+        }
+        else // If the user is logged in via local login (Id)
+        {
+            user = await _userService.GetUserByIdAsync(userId);
+        }
+
         if (user == null)
             return BadRequest("User not found.");
 
@@ -90,7 +137,7 @@ public class ProfileController : ControllerBase
     [HttpPost("push-notifications")]
     public async Task<IActionResult> UpdatePushNotifications([FromBody] NotificationRequest request)
     {
-        var googleId = GetGoogleIdFromSession();
+        var googleId = GetIdFromSession();
         var user = await _userService.GetUserByGoogleIdAsync(googleId);
 
         if (user == null)
@@ -106,7 +153,7 @@ public class ProfileController : ControllerBase
     {
         try
         {
-            var googleId = GetGoogleIdFromSession();
+            var googleId = GetIdFromSession();
             var user = await _userService.GetUserByGoogleIdAsync(googleId);
 
             if (user == null)
@@ -133,16 +180,50 @@ public class ProfileController : ControllerBase
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
-        var googleId = GetGoogleIdFromSession();
-        var user = await _userService.GetUserByGoogleIdAsync(googleId);
+        try
+        {
+            // Get the user identifier (either GoogleId or Id) from the session
+            var userId = GetIdFromSession();
 
-        if (user == null)
-            return BadRequest("User not found.");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User is not authenticated.");
+            }
 
-        user.Password = request.NewPassword;
-        await _userService.UpdateUserAsync(user);
-        return Ok();
+            // Attempt to find the user
+            User user = null;
+            if (userId == HttpContext.Session.GetString("GoogleId")) // If it's a Google login
+            {
+                user = await _userService.GetUserByGoogleIdAsync(userId);
+            }
+            else // Non-Google user
+            {
+                user = await _userService.GetUserByIdAsync(userId);
+            }
+
+            if (user == null)
+            {
+                return BadRequest("No user found with the provided ID.");
+            }
+
+            // Hash the password before saving (important for security)
+            user.Password = HashPassword(request.NewPassword);
+
+            // Update the user's password
+            await _userService.UpdateUserAsync(user);
+
+            return Ok("Password reset successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Log the error and return a server error message
+            Console.WriteLine($"Error resetting password: {ex.Message}");
+            return StatusCode(500, "Failed to reset password.");
+        }
     }
+
+
+
     
 }
 
