@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Fetching potential friends for Google ID:", googleId);
             const response = await fetch(`/api/payment/potential-friends/${googleId}`);
             console.log("Fetch response status:", response.status);
-            
+
             if (response.ok) {
                 const potentialFriends = await response.json();
                 console.log("Potential friends data received:", potentialFriends);
@@ -163,7 +163,10 @@ document.addEventListener("DOMContentLoaded", function() {
         friendsGrid.innerHTML = ""; // Clear any existing entries
         console.log("Displaying potential friends...");
 
-        friends.forEach(friend => {
+        const limitedFriends = friends.slice(0, 3);
+        console.log("Limited to first 4 friends:", limitedFriends);
+
+        limitedFriends.forEach(friend => {
             console.log("Rendering friend:", friend.name, "ID:", friend.id);
 
             const friendDiv = document.createElement("div");
@@ -221,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
 </script>
 </body>
 </html>
