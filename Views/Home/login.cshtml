@@ -1,6 +1,9 @@
 @{
     Layout = null;
 }
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +102,18 @@
 </head>
 <body>
     <div class="login-container">
+        @if (TempData["LoginError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["LoginError"]
+            </div>
+        }
+        @if (ViewContext.HttpContext.Request.Query.ContainsKey("message"))
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewContext.HttpContext.Request.Query["message"]
+            </div>
+        }
         @* pulling in tempdata from controller *@
         @if (TempData["LogoutMessage"] != null)
         {
@@ -122,7 +137,7 @@
                 </div>
                 <button type="submit" class="btn btn-purple btn-block">Sign In</button>
             </form>
-
+      
             <!-- Google Sign-In Button -->
             <button class="gsi-material-button" onclick="location.href='/Home/GoogleLogin'">
                 <div class="gsi-material-button-icon">
@@ -143,7 +158,6 @@
             <div>@ViewBag.Message</div>
             <div>
                 <img src="@ViewBag.BarcodeImageUrl" width="300" height="300" />
-
             </div>
             <div>
                 Manual Setup Code : @ViewBag.SetupCode
@@ -157,8 +171,18 @@
             </div>
         }
 
-        <hr>
-        <div class="register-button-container">
+            </div>
+            <div>
+                Manual Setup Code : @ViewBag.SetupCode
+            </div>
+            <div>
+                @using (Html.BeginForm("TwoFactorAuthenticate", "Home", FormMethod.Post))
+                {
+                    <input type="text" name="CodeDigit" />
+                    <input type="submit" class="btn btn-success" />
+                }
+            </div>
+        }
             <a href="@Url.Action("Register", "Home")" class="btn btn-purple mt-3">Register</a>
         </div>
     </div>

@@ -39,6 +39,7 @@ public class User
         public string VaultId { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public List<VaultMember> Members { get; set; } = new List<VaultMember>();
+        public List<ActivityModel> Activities { get; set; } = new List<ActivityModel>();
 
         // Mock money balance
         public int Balance { get; set; } = 0; // Default vault balance

@@ -27,9 +27,18 @@ public class VaultController : ControllerBase
 
         // Retrieve the user who is creating the vault
         var googleId = HttpContext.Session.GetString("GoogleId");
-        var creator = await _userService.GetUserByGoogleIdAsync(googleId);
+        var id = HttpContext.Session.GetString("Id");
 
-        if (creator == null)
+        User creator;
+        if (!string.IsNullOrEmpty(googleId))
+        {
+            creator = await _userService.GetUserByGoogleIdAsync(googleId);
+        }
+        else if (!string.IsNullOrEmpty(id))
+        {
+            creator = await _userService.GetUserByIdAsync(id);
+        }
+        else
         {
             return Unauthorized("User not logged in or not found.");
         }
@@ -72,14 +81,18 @@ public class VaultController : ControllerBase
                 var user = await _userService.GetUserByIdAsync(member.UserId);
                 if (user != null)
                 {
-                    user.Vaults.Add(createdVault); // Add the vault to the user's Vaults list
+                    if (user.Vaults == null)
+                    {
+                        user.Vaults = new List<Vault>();
+                    }
+                    user.Vaults.Add(createdVault);
                     await _userService.UpdateUserAsync(user);
                 }
             }
 
             // Store the vault itself in the database
             await _userService.CreateVaultAsync(createdVault); 
-            return Ok("Vault and virtual card created successfully");
+            return Ok(new { Message = "Vault and virtual card created successfully", VaultId = createdVault.VaultId });
         }
         catch (Exception ex)
         {
@@ -100,5 +113,6 @@ public class VaultRequest
 public class MemberRequest
 {
     public string FriendId { get; set; }
+    public string Name { get; set; }
     public string Role { get; set; }
 }
