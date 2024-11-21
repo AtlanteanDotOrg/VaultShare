@@ -358,19 +358,12 @@ public class HomeController : Controller
         }
         return View();
     }
-
+    // log out function 
     public async Task<IActionResult> Logout()
     {
-        // Sign out of authentication
-        await HttpContext.SignOutAsync();
-
-        // Clear session data
-        HttpContext.Session.Clear();
-
-        TempData["SuccessMessage"] = "You have successfully logged out."; // Set the success message in TempData
-        
-        // Redirect to login page
-        return RedirectToAction("Login");
+        await HttpContext.SignOutAsync(); 
+        TempData["LogoutMessage"] = "Successfully logged out!";
+        return RedirectToAction("Login"); 
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

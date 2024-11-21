@@ -279,3 +279,5 @@ C:/Users/shaee/Desktop/VaultShare-1/VaultShare/obj/Debug/net8.0/ref/VaultShare.d
 /Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/VaultShare.pdb
 /Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/VaultShare.genruntimeconfig.cache
 /Users/marvinevans/github/SoftDevProj/VaultShare/obj/Debug/net8.0/ref/VaultShare.dll
+/Users/marvinevans/github/SoftDevProj/VaultShare/bin/Debug/net8.0/Google.Authenticator.dll
+/Users/marvinevans/github/SoftDevProj/VaultShare/bin/Debug/net8.0/QRCoder.dll

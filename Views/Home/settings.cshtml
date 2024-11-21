@@ -216,39 +216,7 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
         console.error("Error updating payment method:", error);
     }
 });
-
-
-        // Reset Password
-        document.querySelector('.button-group .custom-btn:first-child').addEventListener('click', async () => {
-            const newPassword = document.querySelectorAll('.custom-input')[0].value;
-            const confirmPassword = document.querySelectorAll('.custom-input')[1].value;
-
-            if (newPassword !== confirmPassword) {
-                alert("Passwords do not match");
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/profile/reset-password`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ newPassword })
-                });
-                if (response.ok) {
-                    alert("Password reset successfully");
-                } else {
-                    alert("Failed to reset password");
-                }
-            } catch (error) {
-                console.error("Error resetting password:", error);
-            }
-        });
-
-        // Sign Out
-        document.querySelector('.button-group .custom-btn:nth-child(2)').addEventListener('click', () => {
-            window.location.href = '/Home/Logout';
-        });
-    });
+ 
 </script>
 
 </head>
@@ -314,9 +282,51 @@ document.querySelector('.update-payment-method .custom-btn:last-child').addEvent
                         <span class="toggle-password">&#128065;</span>
                     </div>
                     <div class="button-group">
-                        <button class="custom-btn">Reset Password</button>
-                        <button class="custom-btn custom-btn-outline">Sign Out</button>
+                        <button id="resetPasswordBtn" class="custom-btn">Reset Password</button>
+                        <button class="custom-btn custom-btn-outline logout-btn">Sign Out</button>
                     </div>
+
+                @* log out javascript *@
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const logoutButton = document.querySelector('.logout-btn');
+                        if (logoutButton) {
+                            console.log('Logout button found:', logoutButton);
+                            logoutButton.addEventListener('click', () => {
+                                console.log('Logout button clicked!');
+                                window.location.href = '/Home/Logout';
+                            });
+                        } else {
+                            console.error('Logout button not found!');
+                        }
+                    });
+                    @* reset password javascript *@
+                    document.querySelector('#resetPasswordBtn').addEventListener('click', async () => {
+                        const newPassword = document.querySelectorAll('.custom-input')[0].value;
+                        const confirmPassword = document.querySelectorAll('.custom-input')[1].value;
+
+                        if (newPassword !== confirmPassword) {
+                            alert("Passwords do not match");
+                            return;
+                        }
+
+                        try {
+                            const response = await fetch(`/api/profile/reset-password`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ newPassword })
+                            });
+                            if (response.ok) {
+                                alert("Password reset successfully");
+                            } else {
+                                alert("Failed to reset password");
+                            }
+                        } catch (error) {
+                            console.error("Error resetting password:", error);
+                        }
+                    });
+                    
+                </script>
                 </div>
             </div>
         </div>

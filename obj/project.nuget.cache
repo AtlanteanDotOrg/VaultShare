@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "fL5yXhiAaoQ=",
+  "dgSpecHash": "jg0tAa+TY2E=",
   "success": true,
   "projectFilePath": "/Users/marvinevans/github/SoftDevProj/VaultShare/VaultShare.csproj",
   "expectedPackageFiles": [
     "/Users/marvinevans/.nuget/packages/bcrypt.net-next/4.0.2/bcrypt.net-next.4.0.2.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/dotnetenv/3.1.1/dotnetenv.3.1.1.nupkg.sha512",
+    "/Users/marvinevans/.nuget/packages/googleauthenticator/3.2.0/googleauthenticator.3.2.0.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/microsoft.aspnetcore.authentication.google/8.0.10/microsoft.aspnetcore.authentication.google.8.0.10.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/microsoft.extensions.configuration/1.1.2/microsoft.extensions.configuration.1.1.2.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/microsoft.extensions.configuration.abstractions/1.1.2/microsoft.extensions.configuration.abstractions.1.1.2.nupkg.sha512",
@@ -20,6 +21,7 @@
     "/Users/marvinevans/.nuget/packages/mongodb.driver/3.0.0/mongodb.driver.3.0.0.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/Users/marvinevans/.nuget/packages/qrcoder/1.4.3/qrcoder.1.4.3.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/marvinevans/.nuget/packages/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
