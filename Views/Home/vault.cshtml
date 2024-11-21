@@ -1,236 +1,384 @@
+@using VaultShare.Models
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>VaultShare - Contributions & Transactions</title>
     <style>
         body {
-            background-color: #F8C471; 
-            font-family: Arial, sans-serif;
+            background-color: #F8C471;
+        }
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
-        .container-boxes {
+        .header {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
-            gap: 20px;
-        }
-
-        .dashboard-card {
-            background-color: #FFFFFF;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-            flex-grow: 1;
-        }
-
-        .dashboard-card h5 {
-            font-size: 1.5em;
-            color: #6C3483;
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1em;
-            font-weight: bold;
-            color: #FFFFFF;
-            background-color: #6C3483;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            background-color: #5A2D71;
-        }
-
-        .transactions-section, .contributions-section {
-            background-color: #FFFFFF;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .transaction-row, .contribution-row {
-            display: flex;
+            padding: 0 20px;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #E0E0E0;
         }
-
-        .transaction-row:last-child, .contribution-row:last-child {
-            border-bottom: none;
+        .header a {
+            margin-left: 20px;
+            color: #343a40;
+            text-decoration: none;
         }
-
-        .avatar {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            margin-right: 10px;
+        .header a:hover {
+            text-decoration: underline;
         }
-
-        .amount-positive {
-            color: #27AE60; 
+        .vault-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        .amount-negative {
-            color: #E74C3C; 
-        }
-
-        .vault-members img {
-            margin: 5px;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            border: 2px solid #6C3483;
-        }
-
-        .card-container {
+        .dashboard-container {
             position: relative;
-            width: 250px;
-            height: 150px;
-            margin: 20px auto;
+            border-radius: 10px;
+            padding: 20px;
+            width: 1200px;
+        }
+        .dashboard-container h1 {
+            text-align: center;
+        }
+        .dashboard-card {
+            background-color: white;
+            padding: 20px; /* Adjust padding for more or less spacing */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 300px;
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+        }
+        .dashboard-card button {
+            margin-top: 10px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-around; 
+            flex-wrap: wrap; 
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .container {
+            position: relative;
+        }
+        .container h1 {
+            text-align: center;
+        }
+
+        .balance-card h2 {
+            color: #6C3483;
+            font-weight: bold;
+        }
+        .dashboard-card.balance-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;  
+            text-align: center;    
+            padding: 20px;       
+            box-shadow: none; 
+            color: #6C3483;
+            font-weight: bold;
+        }
+        .card-container {
             perspective: 1000px;
         }
-
         .credit-card {
+            height: 200px;
             width: 100%;
-            height: 100%;
-            position: absolute;
+            border-radius: 10px;
             transform-style: preserve-3d;
-            transform: rotateY(0);
-            transition: transform 0.8s;
+            transition: transform 0.6s;
+            position: relative;
         }
-
         .card-front, .card-back {
-            width: 100%;
-            height: 100%;
             position: absolute;
+            width: 100%; 
+            height: 100%; 
             backface-visibility: hidden;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, #6C3483, #8E44AD);
-            color: white;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-
-        .card-back {
-            background-color: #FFFFFF;
-            transform: rotateY(180deg);
-            padding: 20px;
+            align-items: center;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: #6C3483;
+            padding: 20px;
         }
-
+        .card-front {
+            background: #6C3483;
+            color: white;
+        }
+        .card-back {
+            background: #6C3483;
+            color: white;
+            transform: rotateY(180deg);
+        }
         .credit-card.flipped {
             transform: rotateY(180deg);
         }
-
-        .flip-button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 15px;
+        .view-more-btn2 {
             background-color: #6C3483;
+            border-color: #6C3483;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: none; 
+            outline: none; 
+            position: relative;
+            bottom: 30px;
+        }
+        .view-more-btn2:hover {
+            background-color: #6C3483;
+            border-color: #6C3483;
+            color: white;
+        }
+        .view-more-btn2:focus, .view-more-btn2:active {
+            background-color: #6C3483 !important;  
+            border-color: #6C3483 !important;     
+            box-shadow: none;  
+        }
+        .notifications {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .contributions-container {
+            display: flex;
+            flex-direction: column;
         }
 
-        .flip-button:hover {
-            background-color: #5A2D71;
+        .contribution-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .transaction-container img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+
+
+        .description {
+            flex: 1;  /* Takes up remaining space */
+        }
+        .description-transaction {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; 
+            margin-left: 10px;
+        }
+
+        .amount {
+            text-align: right;
+            padding-left: 10px;  /* Adds spacing between description and amount */
+            font-weight: bold;
+        }
+
+        .amount-positive {
+            color: green;
+        }
+
+        .amount-negative {
+            color: red;
+        }
+        .approve-deny-buttons {
+            gap: 5px;
+            position: relative;
+            right: 10px;
+        }
+        .transaction-row.show-buttons .approve-deny-buttons {
+            visibility: visible; /* Show the buttons when needed */
+        }
+        .btn-approve {
+            background-color: #27AE60;
+            color: white;
+            border: none;
+        }
+
+        .btn-deny {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
         }
     </style>
 </head>
-<body>
-    <div class="container-boxes">
-        <div class="dashboard-card">
-            <h5>Contributions</h5>
-            <div id="contributions">
-                @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
-                {
-                    <div class="contribution-row">
-                        <img src="path/to/profile/image" alt="Profile Picture" class="avatar">
-                        <span>@member.Role</span>
-                        <span class="amount-positive">$@member.UserId</span>
-                    </div>
-                }
+<body data-vault-id="@ViewData["VaultId"]">
+<br><br><br><br>
+<div class="vault-page">
+    <div class="dashboard-container">
+        <h1 style="color:#343a40; font-weight: bold; text: center">Vault Contributions & Transactions</h1>
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Contributions</h5>
+                    <ul class="list-unstyled text-left">
+                    @if (ViewData["Contributions"] is List<Contribution> contributions)
+                    {
+                        foreach (var contribution in contributions)
+                        {
+                            <div class="contribution-row">
+                                <div class="description">@contribution.Description</div>
+                                <div class="amount @(contribution.Amount >= 0 ? "amount-positive" : "amount-negative")">
+                                    @(contribution.Amount < 0 ? "-" : "") $@Math.Abs(contribution.Amount)
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="contribution-row">
+                            <div class="description" colspan="2">No contributions available.</div>
+                        </div>
+                    }
+                    </ul>
+                    <a href="@Url.Action("transactions", "Home")">
+                        <button class="btn btn-primary view-more-btn2">View More</button>
+                    </a>
+                </div>
             </div>
-            <button class="btn">View More</button>
-        </div>
+            <div class="dashboard-card">
+                <h5 class="card-title">Vault Credit Card</h5>
+                <div class="card-container">
+                    <div class="credit-card" id="credit-card">
+                        <div class="card-front">
+                            <h4>VaultShare Card</h4>
+                            <div class="card-number">**** **** **** 1234</div>
+                            <div class="expiry">Exp: 05/29</div>
+                        </div>
+                        <div class="card-back">
+                            <h4>Card Details</h4>
+                            <p>5678-9012-3456-1234</p>
+                            <p>05/29 | CVV: 123</p>
+                        </div>
+                </div>
+                <button class="btn" style="position: relative; bottom:  10px;" onclick="flipCard()">Flip Card</button>
+            </div>
+            </div>
 
-        <div class="dashboard-card">
-            <h5>Vault Balance</h5>
-            <h2 id="vault-balance">
-                $@((Vault)ViewData["SelectedVault"]).Balance
-            </h2>
-        </div>
 
-        <div class="dashboard-card">
-            <h5>Vault Credit Card</h5>
-            <div class="card-container">
-                <div class="credit-card" id="credit-card">
-                    <div class="card-front">
-                        <h4>VaultShare Card</h4>
-                        <div class="card-number">**** **** **** 1234</div>
-                        <div class="expiry">Exp: 05/29</div>
-                    </div>
-                    <div class="card-back">
-                        <h4>Vault Details</h4>
-                        <p>Card Number: 1234-5678-9012-3456</p>
-                        <p>Expiration: 05/29</p>
-                        <p>CVV: 123</p>
+            <div class="col-md-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title">Vault Members</h5>
+                    <div id="vault-members" class="d-flex flex-wrap">
+
                     </div>
                 </div>
             </div>
-            <button class="flip-button" onclick="flipCard()">Flip Card</button>
         </div>
+        <div class="notifications mt-4">
+            <div class="transaction-container">
+            <h5 class="card-title">Recent Transactions</h5>
+            @if (ViewData["Transaction"] is List<Transaction> transactions)
+                    {
+                        foreach (var transaction in transactions)
+                        {
+                            <div class="transaction-row">
+                                <div class="description-transaction">@transaction.Description</div>
+                                <div class="approve-deny-buttons">
+                                    <button class="btn btn-approve btn-sm">Approve</button>
+                                    <button class="btn btn-deny btn-sm">Deny</button>
+                                </div>
+                                <div class="amount-negative @(transaction.Amount >= 0 ? "amount-positive" : "amount-negative")">
+                                    @if (transaction.Amount < 0)
+                                    {
+                                        @("-" + transaction.Amount.ToString("C").Replace("(", "").Replace(")", ""))
+                                    }
+                                    else
+                                    {
+                                        @transaction.Amount.ToString("C")
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="transaction-row">
+                            <div class="description" colspan="2">No transactions available.</div>
+                        </div>
+                    }
+        </div>
+    </div>
+</div>
 
-        <div class="dashboard-card">
-            <h5>Vault Members</h5>
-            <div id="vault-members">
-                @foreach (var member in ((Vault)ViewData["SelectedVault"]).Members)
-                {
-                    <img src="path/to/member/image" alt="Profile Picture" class="avatar">
-                }
+<script>
+    function flipCard() {
+        const card = document.getElementById("credit-card");
+        card.style.transform = card.style.transform === "rotateY(180deg)" ? "rotateY(0deg)" : "rotateY(180deg)";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const vaultId = document.body.getAttribute("data-vault-id");
+        console.log("Vault ID:", vaultId); // Debugging purposes
+    });
+</script>
+<div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transactionModalLabel">Transaction Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage"></p> <!-- The message will be set dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <button class="btn">View More</button>
         </div>
     </div>
+    @* approve/deny buttons javascript *@
+        <script>
+            document.querySelectorAll('.approve-deny-buttons').forEach(buttonGroup => {
+                const approveButton = buttonGroup.querySelector('.btn-approve');
+                const denyButton = buttonGroup.querySelector('.btn-deny');
+                const transactionRow = buttonGroup.closest('.transaction-row'); // The parent row
+                const modalMessage = document.getElementById('modalMessage'); // Modal message element
 
-    <div class="transactions-section">
-        <h5>Recent Transactions</h5>
-        <div id="transactions">
-            <!-- Add transaction rows dynamically -->
-        </div>
-    </div>
+                // Function to show the modal with the appropriate message
+                function showModal(message) {
+                    modalMessage.textContent = message; // Set the message in the modal
+                    $('#transactionModal').modal('show'); // Use Bootstrap's modal to show it
+                }
 
-    <script>
-        function flipCard() {
-            const card = document.getElementById('credit-card');
-            card.classList.toggle('flipped');
-        }
-    </script>
+                // When Approve is clicked
+                approveButton.addEventListener('click', () => {
+                    buttonGroup.style.visibility = 'hidden'; // Hide buttons after approval
+                    transactionRow.classList.remove('show-buttons'); // Remove shift
+                    showModal('You have approved the transaction.'); // Show success message in modal
+                });
+
+                // When Deny is clicked
+                denyButton.addEventListener('click', () => {
+                    buttonGroup.style.visibility = 'hidden'; // Hide buttons after denial
+                    transactionRow.classList.remove('show-buttons'); // Remove shift
+                    showModal('You have denied the transaction.'); // Show failure message in modal
+                });
+            });
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
