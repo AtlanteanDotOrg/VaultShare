@@ -52,14 +52,32 @@ public class PaymentController : ControllerBase
         return Ok(friends);
     }
 
-    [HttpGet("potential-friends/{googleId}")]
-    public async Task<IActionResult> GetPotentialFriends(string googleId)
+[HttpGet("potential-friends/{googleId}")]
+public async Task<IActionResult> GetPotentialFriends(string googleId)
+{
+    try
     {
-        Console.WriteLine($"Received request to retrieve potential friends for GoogleId: {googleId}");
+        Console.WriteLine($"[GetPotentialFriends] Received request for GoogleId: {googleId}");
+
+        // Fetch all users except the one with this GoogleId
         var potentialFriends = await _userService.GetAllUsersExceptAsync(googleId);
-        Console.WriteLine($"Returning {potentialFriends.Count} potential friends for GoogleId: {googleId}");
+
+        if (potentialFriends == null || !potentialFriends.Any())
+        {
+            Console.WriteLine($"[GetPotentialFriends] No potential friends found for GoogleId: {googleId}");
+            return Ok(new List<object>()); // Return an empty list if no friends are found
+        }
+
+        Console.WriteLine($"[GetPotentialFriends] Returning {potentialFriends.Count} potential friends for GoogleId: {googleId}");
         return Ok(potentialFriends);
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[GetPotentialFriends] An error occurred: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+        return StatusCode(500, "An error occurred while retrieving potential friends.");
+    }
+}
 
     [HttpGet("potential-friends-reg/{id}")]
     public async Task<IActionResult> GetPotentialRegFriends(string id)
