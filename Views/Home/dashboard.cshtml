@@ -174,13 +174,16 @@
                 <div class="col-md-4">
                     <div class="dashboard-card">
                         <h5 class="card-title">Vaults</h5>
+                        <br>
                         <ul class="list-unstyled text-left">
                             @foreach (var vault in (List<Vault>)ViewData["Vaults"])
                             {
                                 <li>
-                                    <strong>@vault.Name</strong>
-                                    <p>Balance: $@vault.Balance</p>
-                                    <p>ID: @vault.VaultId</p>
+                                    <strong style="color: #6C3483">Vault Name: @vault.Name</strong>
+                                    <li>
+                                        <p>Vault Balance: $@ViewData["Balance"]</p>
+                                    </li>
+                                    
                                 </li>
                             }
                         </ul>
