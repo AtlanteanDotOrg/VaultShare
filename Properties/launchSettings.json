@@ -19,8 +19,8 @@
                 "MONGO_CONNECTION_STRING": "mongodb+srv://admin:admin123@cluster0.qna17.mongodb.net/?retryWrites=true&w=majority",
                 "GOOGLE_CLIENT_ID": "211102231626-nimn1hsavm542tejgf4q1t37b1ocvnc9.apps.googleusercontent.com",
                 "GOOGLE_CLIENT_SECRET": "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",
-                "US_BANK_API_KEY": "qOztROJZpvqHBCjuPDAA5hl8lPuTMWGq",
-                "US_BANK_API_SECRET": "oly4Y2DXGsWJgjaP"
+                "US_BANK_API_KEY": "NJGvfgokPYSPdd3pRny2NG6EB9DGzVAu",
+                "US_BANK_API_SECRET": "6ASSEr7uMU0adYqG"
             }
         },
         "https": {
@@ -33,8 +33,8 @@
                 "MONGO_CONNECTION_STRING": "mongodb+srv://admin:admin123@cluster0.qna17.mongodb.net/?retryWrites=true&w=majority",
                 "GOOGLE_CLIENT_ID": "211102231626-nimn1hsavm542tejgf4q1t37b1ocvnc9.apps.googleusercontent.com",
                 "GOOGLE_CLIENT_SECRET": "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",
-                "US_BANK_API_KEY": "qOztROJZpvqHBCjuPDAA5hl8lPuTMWGq",
-                "US_BANK_API_SECRET": "oly4Y2DXGsWJgjaP"
+                "US_BANK_API_KEY": "NJGvfgokPYSPdd3pRny2NG6EB9DGzVAu",
+                "US_BANK_API_SECRET": "6ASSEr7uMU0adYqG"
             }
         },
         "IIS Express": {
@@ -46,8 +46,8 @@
                 "MONGO_CONNECTION_STRING": "mongodb+srv://admin:admin123@cluster0.qna17.mongodb.net/?retryWrites=true&w=majority",
                 "GOOGLE_CLIENT_ID": "211102231626-nimn1hsavm542tejgf4q1t37b1ocvnc9.apps.googleusercontent.com",
                 "GOOGLE_CLIENT_SECRET": "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",
-                "US_BANK_API_KEY": "qOztROJZpvqHBCjuPDAA5hl8lPuTMWGq",
-                "US_BANK_API_SECRET": "oly4Y2DXGsWJgjaP"
+                "US_BANK_API_KEY": "NJGvfgokPYSPdd3pRny2NG6EB9DGzVAu",
+                "US_BANK_API_SECRET": "6ASSEr7uMU0adYqG"
             }
         }
     }
